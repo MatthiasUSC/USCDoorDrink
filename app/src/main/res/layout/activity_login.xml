@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
+
 
     <Button
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="156dp"
-        android:layout_marginBottom="204dp"
-        android:onClick="Registering"
-        android:text="Register"
+        android:layout_marginBottom="208dp"
+        android:onClick="Loggingin"
+        android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
 
 
@@ -24,13 +25,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/LoginLink"
-        android:layout_width="102dp"
-        android:layout_height="60dp"
+        android:id="@+id/RegisterLink"
+        android:layout_width="112dp"
+        android:layout_height="57dp"
         android:layout_marginEnd="156dp"
-        android:layout_marginBottom="644dp"
-        android:onClick="LoginPage"
-        android:text="To Login"
+        android:layout_marginBottom="604dp"
+        android:onClick="RegisterPage"
+        android:text="To Register"
         app:layout_constraintBottom_toBottomOf="parent"
 
 
@@ -65,51 +66,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/RegDescript"
+        android:id="@+id/LoginDesc"
         android:layout_width="128dp"
         android:layout_height="26dp"
-        android:layout_marginBottom="536dp"
-        android:text="Registration Page"
+        android:layout_marginBottom="532dp"
+        android:text="Login Page"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="205dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="428dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <RadioButton
-            android:id="@+id/Seller"
-            android:layout_width="101dp"
-            android:layout_height="33dp"
-            android:onClick="RadioButtonhandler"
-            android:text="Seller"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RadioButton
-            android:id="@+id/Buyer"
-            android:layout_width="104dp"
-            android:layout_height="33dp"
-            android:onClick="RadioButtonhandler"
-            android:text="Buyer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.655"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
