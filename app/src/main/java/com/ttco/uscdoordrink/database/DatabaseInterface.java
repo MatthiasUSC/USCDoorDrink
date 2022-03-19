@@ -82,6 +82,28 @@ public class DatabaseInterface {
         db.collection("users").add(user);
     }
 
+    public static void getLoginResult(String username, String password, LoginResultListener listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+            .whereEqualTo(USERNAME_KEY, username)
+            .whereEqualTo(PASSWORD_KEY, password)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if(task.getResult().size() > 0){
+                            listener.onComplete(true);
+                        } else {
+                            listener.onComplete(false);
+                        }
+                    } else {
+                        listener.onComplete(null);
+                    }
+                }
+            });
+    }
+
     public static void getStoreOrders(String seller_username, StoreOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
