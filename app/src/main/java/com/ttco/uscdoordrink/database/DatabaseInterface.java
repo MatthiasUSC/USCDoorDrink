@@ -2,9 +2,16 @@ package com.ttco.uscdoordrink.database;
 import com.google.firebase.firestore.*;
 import com.google.android.gms.tasks.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
+import com.ttco.uscdoordrink.*;
+
+import org.w3c.dom.Document;
+
+import java.util.*;
+
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //TODO make query faster by not searching each
 public class DatabaseInterface {
@@ -75,5 +82,61 @@ public class DatabaseInterface {
         db.collection("users").add(user);
     }
 
-    public static void getStoreOrders
+    public static void getStoreOrders(String seller_username, StoreOrderListener listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("current_orders")
+                .whereEqualTo("seller_username", seller_username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        ArrayList<SellerOrder> orders = new ArrayList<SellerOrder>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> data = document.getData();
+                            orders.add(new SellerOrder(
+                                    document.getId(),
+                                    (String)data.get("customer_username"),
+                                    (String)data.get("drink"),
+                                    (String)data.get("start_time"),
+                                    (String)data.get("seller_username")));
+                        }
+                        listener.onComplete(orders);
+                    } else {
+                        listener.onComplete(null);
+                    }
+                }
+        });
+    }
+
+    // Removes store order from current_orders and puts it in order history for customer
+    public static void completeStoreOrder(SellerOrder order, CompleteOrderListener listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("current_orders")
+                .document(order.doc_id)
+                .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            listener.onComplete(true);
+                        } else {
+                            listener.onComplete(false);
+                        }
+                    }
+                }
+        );
+
+        Map<String, Object> complete_order = new HashMap<>();
+        complete_order.put("seller_username", order.seller_name);
+        complete_order.put("customer_username", order.customer_name);
+        complete_order.put("drink", order.drink);
+        complete_order.put("start_time", order.startTime);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        complete_order.put("end_time", formatter.format(date));
+
+        db.collection("order_histories").add(complete_order);
+    }
 }
