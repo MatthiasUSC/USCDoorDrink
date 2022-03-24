@@ -123,7 +123,10 @@ public class DatabaseInterface {
                                     (String)data.get("customer_username"),
                                     (String)data.get("drink"),
                                     (String)data.get("start_time"),
-                                    (String)data.get("seller_username")));
+                                    (String)data.get("seller_username"),
+                                    (String)data.get("restaurant_name")
+                            ));
+
                         }
                         listener.onComplete(orders);
                     } else {
@@ -132,6 +135,36 @@ public class DatabaseInterface {
                 }
         });
     }
+    public static void getCustomerOrder(String customer_username, CustomerOrderListener listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("order_histories")
+                .whereEqualTo("customer_username", customer_username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<SellerOrder> orders = new ArrayList<SellerOrder>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+                                orders.add(new SellerOrder(
+                                        document.getId(),
+                                        (String)data.get("customer_username"),
+                                        (String)data.get("drink"),
+                                        (String)data.get("start_time"),
+                                        (String)data.get("seller_username"),
+                                        (String)data.get("restaurant_name")
+                                ));
+                            }
+                            listener.onComplete(orders);
+                        } else {
+                            listener.onComplete(null);
+                        }
+                    }
+                });
+    }
+
 
     // Removes store order from current_orders and puts it in order history for customer
     public static void completeStoreOrder(SellerOrder order, CompleteOrderListener listener){
@@ -155,7 +188,7 @@ public class DatabaseInterface {
         complete_order.put("customer_username", order.customer_name);
         complete_order.put("drink", order.drink);
         complete_order.put("start_time", order.startTime);
-
+        complete_order.put("restaurant_name", order.startTime);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         complete_order.put("end_time", formatter.format(date));
