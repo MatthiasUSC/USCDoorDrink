@@ -1,6 +1,7 @@
 package com.ttco.uscdoordrink.database;
 import com.google.firebase.firestore.*;
 import com.google.android.gms.tasks.*;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import com.ttco.uscdoordrink.*;
@@ -161,4 +162,5 @@ public class DatabaseInterface {
 
         db.collection("order_histories").add(complete_order);
     }
+
 }
