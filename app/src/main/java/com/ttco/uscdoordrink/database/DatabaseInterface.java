@@ -1,6 +1,7 @@
 package com.ttco.uscdoordrink.database;
 import com.google.firebase.firestore.*;
 import com.google.android.gms.tasks.*;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,5 +76,6 @@ public class DatabaseInterface {
         db.collection("users").add(user);
     }
 
-    public static void getStoreOrders
+
+
 }
