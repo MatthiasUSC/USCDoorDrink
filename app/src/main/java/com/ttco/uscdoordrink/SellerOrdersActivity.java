@@ -2,6 +2,7 @@ package com.ttco.uscdoordrink;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import android.view.*;
@@ -50,6 +51,13 @@ public class SellerOrdersActivity extends AppCompatActivity {
         // AT LOGIN
         DatabaseInterface.getStoreOrders("bob2", new UpdateListListener());
     }
+
+    // Fetches from the database and refreshes order list
+    public void goBack(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
 
     // Callback that updates list when database returns orders
     class UpdateListListener implements StoreOrderListener {
