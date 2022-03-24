@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else{
+                System.out.println("Adding in information");
                 DatabaseInterface.addUserProfile(fullname, password, type);
             }
         }
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //System.out.println("The password is: " + Password);
         finalType = type;
 
-        System.out.println("Type: " + type);
+        //System.out.println("Type: " + type);
         //Put api firebase
 
         DatabaseInterface.doesUsernameExist(Fullname, new UserHandler(Fullname, Password, finalType));

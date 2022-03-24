@@ -82,7 +82,7 @@ public class DatabaseInterface {
 
         db.collection("users").add(user);
     }
-    
+
     public static void getLoginResult(String username, String password, LoginResultListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
