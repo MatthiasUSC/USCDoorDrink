@@ -141,7 +141,9 @@ public class OrderDetails extends AppCompatActivity {
         period_button.setEnabled(false);
         period_button.setVisibility(View.INVISIBLE);
         DatabaseInterface.getCustomerOrderHistory(fullname, new OrderHistoryHandler(this));
+    }
 
+    public void checkForOverdose(List<OrderHistoryEntry> orders){
 
     }
 
