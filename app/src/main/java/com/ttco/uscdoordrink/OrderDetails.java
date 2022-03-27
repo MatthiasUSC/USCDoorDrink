@@ -26,8 +26,12 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Date;
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
+=======
+import java.util.List;
+>>>>>>> 4325110489dd0c1b9a116ccf64c77e080a88e901
 import java.util.Scanner;
 import java.util.Calendar;
 import android.widget.Button;
@@ -201,7 +205,9 @@ public class OrderDetails extends AppCompatActivity {
     }
 
 
-    // Needed for notifications
+
+
+
     public static final String CHANNEL_NAME = "notification_channel";
     public static final String CHANNEL_DESCRIPTION = "A channel for notifications.";
     public static final String CHANNEL_ID = "0";
@@ -248,6 +254,34 @@ public class OrderDetails extends AppCompatActivity {
         notificationManager.notify(notificationId, builder.build());
     }
 
+    // This function is assuming all the orders are within the same day
+    public void checkForOverdose(List<OrderHistoryEntry> orders){
+        int caffeinatedDrinks = 0;
+        for(OrderHistoryEntry order : orders) {
+            if(order.isCaffeinated){
+                caffeinatedDrinks += 1;
+            }
+        }
+        if(caffeinatedDrinks > 5){
+            String quote = "Quote from USDA “Currently, strong evidence shows that consumption of coffee within the " +
+            "moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) is not associated with " +
+            "increased long-term health risks among healthy individuals.” You have drank more than 5 caffeinated drinks today.";
+
+            // Test
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.star_on)
+                    .setContentTitle("Alert: Too much caffeine!")
+                    .setContentText(quote)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(quote))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
 
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            // notificationId is a unique int for each notification that you must define
+            int notificationId = 0;
+            notificationManager.notify(notificationId, builder.build());
+        }
+    }
+>>>>>>> 4325110489dd0c1b9a116ccf64c77e080a88e901
 }

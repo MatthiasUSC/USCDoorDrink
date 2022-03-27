@@ -86,6 +86,5 @@ public class StoreEditor extends AppCompatActivity {
         }
         DatabaseInterface.addStore(store);
 
-
     }
 }
