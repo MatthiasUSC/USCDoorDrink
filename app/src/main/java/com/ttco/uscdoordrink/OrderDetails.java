@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Calendar;
+import android.widget.Button;
 
 public class OrderDetails extends AppCompatActivity {
     ArrayList<String> orderHistory;
@@ -32,11 +33,34 @@ public class OrderDetails extends AppCompatActivity {
     ArrayList<String> displayedHistoryDay;
 
     ListView history;
-    View period_button;
+    Button period_button;
+    int cycle;
 
     public void toMap(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void changePeriod(View view) {
+        cycle = (cycle + 1) % 3;
+        if(cycle == 0) {
+            ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, displayedHistoryMonth);
+            history.setAdapter(arrayAdapter);
+            period_button.setText("Month");
+        }
+        else if(cycle == 1){
+            ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, displayedHistoryDay);
+            history.setAdapter(arrayAdapter);
+            period_button.setText("Day");
+
+        }
+        else {
+            ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, displayedHistoryYear);
+            history.setAdapter(arrayAdapter);
+            period_button.setText("Year");
+
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -72,6 +96,7 @@ public class OrderDetails extends AppCompatActivity {
                             "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
                             //+ orders.get(i).orderLocation
                             + "\n" + "Time order received: " + orders.get(i).endTime
+
                     );
 
                     String timeOfDrink = orders.get(i).endTime;
@@ -125,6 +150,7 @@ public class OrderDetails extends AppCompatActivity {
                 history.setAdapter(arrayAdapter);
                 period_button.setEnabled(true);
                 period_button.setVisibility(View.VISIBLE);
+                period_button.setText("Month");
             }
 
         }
@@ -135,16 +161,17 @@ public class OrderDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
         String fullname = LoginActivity.user.name;
+        cycle = 0;
         System.out.println("The full name is " + fullname);
         history = (ListView) findViewById(R.id.orderChart);
-        period_button = findViewById(R.id.period);
+        period_button = (Button) findViewById(R.id.period);
         period_button.setEnabled(false);
         period_button.setVisibility(View.INVISIBLE);
         DatabaseInterface.getCustomerOrderHistory(fullname, new OrderHistoryHandler(this));
     }
 
     public void checkForOverdose(List<OrderHistoryEntry> orders){
-
     }
 
+    
 }
