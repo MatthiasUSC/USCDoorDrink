@@ -4,10 +4,6 @@ import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-import com.ttco.uscdoordrink.*;
-
-import org.w3c.dom.Document;
-
 import java.util.*;
 
 
@@ -24,14 +20,14 @@ public class DatabaseInterface {
         return null;
     }
 
-    public static Map<String, Object> createOrderHistoryEntry(SellerOrder order){
+    public static Map<String, Object> createOrderHistoryEntryFromCurrentOrderEntry(CurrentOrderEntry order){
         Map<String, Object> complete_order = new HashMap<>();
         complete_order.put("seller_username", order.seller_name);
         complete_order.put("customer_username", order.customer_name);
         complete_order.put("drink", order.drink);
         complete_order.put("start_time", order.startTime);
-        complete_order.put("restaurant_name", order.restaurant_name); //TODO change startTime
-        //complete_order.put("restaurant_location", order.restaurant_location);
+        complete_order.put("restaurant_name", order.restaurant_name);
+        complete_order.put("order_location", order.order_location);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         complete_order.put("end_time", formatter.format(date));
@@ -75,6 +71,7 @@ public class DatabaseInterface {
         });
     }
 
+    // TODO make more efficient
     public static void getUserProfile(String targetUsername, UserProfileListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -141,19 +138,10 @@ public class DatabaseInterface {
                 @Override
                 public void onComplete(Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        ArrayList<SellerOrder> orders = new ArrayList<SellerOrder>();
+                        ArrayList<CurrentOrderEntry> orders = new ArrayList<CurrentOrderEntry>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> data = document.getData();
-                            orders.add(new SellerOrder(
-                                    document.getId(),
-                                    (String)data.get("customer_username"),
-                                    (String)data.get("drink"),
-                                    (String)data.get("start_time"),
-                                    (String)data.get("seller_username"),
-                                    (String)data.get("restaurant_name"),
-                                    (String)data.get("end_time")
-                            ));
-
+                            orders.add(new CurrentOrderEntry(document.getId(), data));
                         }
                         listener.onComplete(orders);
                     } else {
@@ -177,16 +165,7 @@ public class DatabaseInterface {
                             ArrayList<OrderHistoryEntry> orders = new ArrayList<OrderHistoryEntry>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
-                                orders.add(new OrderHistoryEntry(
-                                        document.getId(),
-                                        (String)data.get("customer_username"),
-                                        (String)data.get("drink"),
-                                        (String)data.get("start_time"),
-                                        (String)data.get("seller_username"),
-                                        (String)data.get("restaurant_name"),
-                                        (String)data.get("end_time"),
-                                        (Boolean)data.get("is_caffeinated")
-                                ));
+                                orders.add(new OrderHistoryEntry(document.getId(), data));
                             }
                             listener.onComplete(orders);
                         } else {
@@ -197,7 +176,7 @@ public class DatabaseInterface {
     }
 
     // Removes store order from current_orders and puts it in order history for customer
-    public static void completeStoreOrder(SellerOrder order, CompleteOrderListener listener){
+    public static void completeStoreOrder(CurrentOrderEntry order, CompleteOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("current_orders")
                 .document(order.doc_id)
@@ -214,7 +193,7 @@ public class DatabaseInterface {
         );
 
         // Add completed order to order history.
-        addOrderHistory(createOrderHistoryEntry(order));
+        addOrderHistory(createOrderHistoryEntryFromCurrentOrderEntry(order));
     }
 
     // Adds a order history entry to the store collection

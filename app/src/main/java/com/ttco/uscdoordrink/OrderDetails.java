@@ -268,7 +268,7 @@ public class OrderDetails extends AppCompatActivity {
             "moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) is not associated with " +
             "increased long-term health risks among healthy individuals.” You have drank more than 5 caffeinated drinks today.";
 
-            // Test
+            // Send notifcation about too much caffeine
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(android.R.drawable.star_on)
                     .setContentTitle("Alert: Too much caffeine!")
@@ -276,7 +276,6 @@ public class OrderDetails extends AppCompatActivity {
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .bigText(quote))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             // notificationId is a unique int for each notification that you must define

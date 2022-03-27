@@ -8,6 +8,7 @@ import android.widget.*;
 import android.view.*;
 
 import com.ttco.uscdoordrink.database.CompleteOrderListener;
+import com.ttco.uscdoordrink.database.CurrentOrderEntry;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.StoreOrderListener;
 
@@ -27,7 +28,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                final SellerOrder item = (SellerOrder) parent.getItemAtPosition(position);
+                final CurrentOrderEntry item = (CurrentOrderEntry) parent.getItemAtPosition(position);
                 DatabaseInterface.completeStoreOrder(item, new CompleteOrderListener() {
                     @Override
                     public void onComplete(Boolean isSuccessful) {
@@ -43,7 +44,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
 
     // Fetches from the database and refreshes order list
     public void refresh(View view) {
-        ArrayList<SellerOrder> values;
+        ArrayList<CurrentOrderEntry> values;
         DatabaseInterface.getCurrentOrders(LoginActivity.user.name, new UpdateListListener());
     }
 
@@ -55,9 +56,9 @@ public class SellerOrdersActivity extends AppCompatActivity {
 
     // Callback that updates list when database returns orders
     class UpdateListListener implements StoreOrderListener {
-        public void onComplete(ArrayList<SellerOrder> orders){
-            SellerOrder[] arr = new SellerOrder[orders.size()];
-            final ArrayAdapter<SellerOrder> adapter =
+        public void onComplete(ArrayList<CurrentOrderEntry> orders){
+            CurrentOrderEntry[] arr = new CurrentOrderEntry[orders.size()];
+            final ArrayAdapter<CurrentOrderEntry> adapter =
                     new SellerOrdersAdapter(getApplicationContext(), orders.toArray(arr));
             listview.setAdapter(adapter);
         }

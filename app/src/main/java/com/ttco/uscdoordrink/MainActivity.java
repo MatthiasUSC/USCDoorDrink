@@ -1,19 +1,15 @@
 package com.ttco.uscdoordrink;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.ttco.uscdoordrink.database.DatabaseInterface;
+import com.ttco.uscdoordrink.database.OrderHistoryEntry;
 import com.ttco.uscdoordrink.database.UsernameExistenceListener;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,8 +51,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         username = (EditText) findViewById(R.id.name);
         password = (EditText) findViewById(R.id.password);
+        //populate_order_history();
     }
 
+    // Creates a lot of mock order histories
+    void populate_order_history(){
+        for(int i = 0; i < 10; i++) {
+            OrderHistoryEntry testEntry = new OrderHistoryEntry("0", "hello", "water", "18/03/2022 20:15:59", "chipole" + String.valueOf(i), "bob2", "10:00", true, "here");
+            DatabaseInterface.addOrderHistory(testEntry.toHashMap());
+        }
+    }
 
 
     public void RadioButtonhandler(View view){
