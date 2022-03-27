@@ -15,10 +15,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="-48dp" />
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="-119dp" />
 
     <Button
         android:id="@+id/toMap"
@@ -34,6 +34,31 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="20dp"
         android:text="History data" />
+
+    <Button
+        android:id="@+id/period_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="40dp"
+        android:text="Month" />
+        android:visibility="invisible"
+    <Button
+        android:id="@+id/period_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="40dp"
+        android:text="Year" />
+
+    <Button
+        android:id="@+id/period_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="40dp"
+        android:text="Day" />
+
 
 
 </RelativeLayout>

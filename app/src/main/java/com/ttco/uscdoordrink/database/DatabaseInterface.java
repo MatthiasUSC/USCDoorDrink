@@ -124,7 +124,8 @@ public class DatabaseInterface {
                                     (String)data.get("drink"),
                                     (String)data.get("start_time"),
                                     (String)data.get("seller_username"),
-                                    (String)data.get("restaurant_name")
+                                    (String)data.get("restaurant_name"),
+                                    (String)data.get("end_time")
                             ));
 
                         }
@@ -154,7 +155,8 @@ public class DatabaseInterface {
                                         (String)data.get("drink"),
                                         (String)data.get("start_time"),
                                         (String)data.get("seller_username"),
-                                        (String)data.get("restaurant_name")
+                                        (String)data.get("restaurant_name"),
+                                        (String)data.get("end_time")
                                 ));
                             }
                             listener.onComplete(orders);
