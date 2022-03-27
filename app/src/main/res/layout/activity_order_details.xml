@@ -42,6 +42,7 @@
         android:layout_marginStart="300dp"
         android:layout_marginTop="40dp"
         android:text="Month"
+        android:onClick= "changePeriod"
         android:visibility="invisible"
         />
 
