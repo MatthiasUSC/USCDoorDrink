@@ -8,17 +8,20 @@ public class StoreEntry {
     public static final String FIELD_STORE_LOCATION = "store_location";
     public static final String FIELD_OWNER_USERNAME = "owner_username";
 
+    public String id;
     public String storeName;
     public String storeLocation;
     public String ownerUsername;
 
-    public StoreEntry(String storeName, String storeLocation, String ownerUsername) {
+    public StoreEntry(String id, String storeName, String storeLocation, String ownerUsername) {
+        this.id = id;
         this.storeName = storeName;
         this.storeLocation = storeLocation;
         this.ownerUsername = ownerUsername;
     }
 
-    public StoreEntry(Map<String, Object> map){
+    public StoreEntry(String id, Map<String, Object> map){
+        this.id = id;
         this.storeName = (String)map.get(FIELD_STORE_NAME);
         this.storeLocation = (String)map.get(FIELD_STORE_LOCATION );
         this.ownerUsername = (String)map.get(FIELD_OWNER_USERNAME);

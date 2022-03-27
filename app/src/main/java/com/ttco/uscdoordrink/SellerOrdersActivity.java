@@ -44,9 +44,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
     // Fetches from the database and refreshes order list
     public void refresh(View view) {
         ArrayList<SellerOrder> values;
-        // TODO REPLACE bob2 WITH GLOBAL VARIABLE OF SELLER USERNAME THAT IS LOGGED IN, AND SET
-        // AT LOGIN
-        DatabaseInterface.getCurrentOrders("bob2", new UpdateListListener());
+        DatabaseInterface.getCurrentOrders(LoginActivity.user.name, new UpdateListListener());
     }
 
     // Fetches from the database and refreshes order list
@@ -54,7 +52,6 @@ public class SellerOrdersActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-
 
     // Callback that updates list when database returns orders
     class UpdateListListener implements StoreOrderListener {
@@ -65,7 +62,4 @@ public class SellerOrdersActivity extends AppCompatActivity {
             listview.setAdapter(adapter);
         }
     }
-
-
-
 }
