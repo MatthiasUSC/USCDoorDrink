@@ -27,7 +27,10 @@ import java.util.Calendar;
 public class OrderDetails extends AppCompatActivity {
     ArrayList<String> orderHistory;
     ArrayList<SellerOrder> copy_orders;
-    ArrayList<String> displayedHistory;
+    ArrayList<String> displayedHistoryMonth;
+    ArrayList<String> displayedHistoryYear;
+    ArrayList<String> displayedHistoryDay;
+
     ListView history;
     View period_button;
 
@@ -50,7 +53,9 @@ public class OrderDetails extends AppCompatActivity {
             if(orders != null) {
                 copy_orders = orders;
                 orderHistory = new ArrayList<String>();
-                displayedHistory = new ArrayList<String>();
+                displayedHistoryMonth = new ArrayList<String>();
+                displayedHistoryDay = new ArrayList<String>();
+                displayedHistoryYear = new ArrayList<String>();
                 LocalDateTime now = LocalDateTime.now();
                 int year = now.getYear();
                 int month = now.getMonth().getValue();
@@ -82,8 +87,27 @@ public class OrderDetails extends AppCompatActivity {
 //                    long diffInMinutes = java.time.Duration.between(dateTime, now).toMinutes();
 //                    System.out.println("difference between time in minutes: " + diffInMinutes);
                     if(order_month == month) {
-
+                        displayedHistoryMonth.add("Drink: " + orders.get(i).drink + "\n"
+                                + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
+                                "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
+                                //+ orders.get(i).orderLocation
+                                + "\n" + "Time order received: " + orders.get(i).endTime);
                     }
+                    if(order_year == year){
+                        displayedHistoryYear.add("Drink: " + orders.get(i).drink + "\n"
+                                + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
+                                "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
+                                //+ orders.get(i).orderLocation
+                                + "\n" + "Time order received: " + orders.get(i).endTime);
+                    }
+                    if(order_day == day){
+                        displayedHistoryDay.add("Drink: " + orders.get(i).drink + "\n"
+                                + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
+                                "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
+                                //+ orders.get(i).orderLocation
+                                + "\n" + "Time order received: " + orders.get(i).endTime);
+                    }
+
 
 
                     //System.out.println(orders.get(i).drink);
@@ -97,7 +121,7 @@ public class OrderDetails extends AppCompatActivity {
 
 //                System.out.println(orderHistory.get(0));
 
-                ArrayAdapter arrayAdapter = new ArrayAdapter(c, android.R.layout.simple_list_item_1, orderHistory);
+                ArrayAdapter arrayAdapter = new ArrayAdapter(c, android.R.layout.simple_list_item_1, displayedHistoryMonth);
                 history.setAdapter(arrayAdapter);
                 period_button.setEnabled(true);
                 period_button.setVisibility(View.VISIBLE);
@@ -120,7 +144,5 @@ public class OrderDetails extends AppCompatActivity {
 
 
     }
-
-
 
 }
