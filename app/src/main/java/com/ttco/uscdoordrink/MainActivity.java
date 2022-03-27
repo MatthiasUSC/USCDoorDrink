@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean finalType;
     String Fullname;
     String Password;
-
+    static boolean newUser;
     private class UserHandler implements UsernameExistenceListener{
         String fullname;
         String password;
