@@ -213,7 +213,13 @@ public class DatabaseInterface {
                 }
         );
 
-        Map<String, Object> complete_order = createOrderHistoryEntry(order);
+        // Add completed order to order history.
+        addOrderHistory(createOrderHistoryEntry(order));
+    }
+
+    // Adds a order history entry to the store collection
+    public static void addOrderHistory(Map<String, Object> complete_order){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("order_histories").add(complete_order);
     }
 

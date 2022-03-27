@@ -26,12 +26,9 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Date;
-<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
-=======
 import java.util.List;
->>>>>>> 4325110489dd0c1b9a116ccf64c77e080a88e901
 import java.util.Scanner;
 import java.util.Calendar;
 import android.widget.Button;
@@ -103,9 +100,10 @@ public class OrderDetails extends AppCompatActivity {
                 int minute = now.getMinute();
                 int second = now.getSecond();
 
+                // For check caffeine warning
+                ArrayList<OrderHistoryEntry> dayOrders = new ArrayList<OrderHistoryEntry>();
 
                 for (int i = 0; i < orders.size(); i++) {
-
                     orderHistory.add("Drink: " + orders.get(i).drink + "\n"
                             + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
                             "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
@@ -153,6 +151,8 @@ public class OrderDetails extends AppCompatActivity {
                                 "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
                                 //+ orders.get(i).orderLocation
                                 + "\n" + "Time order received: " + orders.get(i).endTime);
+
+                        dayOrders.add(orders.get(i));
                     }
 
                     //System.out.println(orders.get(i).drink);
@@ -160,6 +160,9 @@ public class OrderDetails extends AppCompatActivity {
                     //System.out.println(orders.get(i).seller_name);
                     //System.out.println(orders.get(i).startTime);
                 }
+
+                // Checks for overdose, if more than x amount of caffeinated drinks in a single day
+                checkForOverdose(dayOrders);
 
                 System.out.println("Year: " + year);
                 System.out.println("Month: " + month);
@@ -182,7 +185,7 @@ public class OrderDetails extends AppCompatActivity {
                 period_button.setEnabled(true);
                 period_button.setVisibility(View.VISIBLE);
                 period_button.setText("Month");
-                createNotificationChannel();
+                sendRecommendation();
             }
 
 
@@ -193,6 +196,7 @@ public class OrderDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
+        createNotificationChannel();
         String fullname = LoginActivity.user.name;
         cycle = 0;
         ReccomendedName = "";
@@ -203,9 +207,6 @@ public class OrderDetails extends AppCompatActivity {
         period_button.setVisibility(View.INVISIBLE);
         DatabaseInterface.getCustomerOrderHistory(fullname, new OrderHistoryHandler(this));
     }
-
-
-
 
 
     public static final String CHANNEL_NAME = "notification_channel";
@@ -225,8 +226,9 @@ public class OrderDetails extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
 
-        // Test
+    public void sendRecommendation(){
         NotificationCompat.Builder builder;
         if(!ReccomendedName.equals("")) {
             builder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -246,7 +248,6 @@ public class OrderDetails extends AppCompatActivity {
                             .bigText("You haven't had anything to drink yet - grab some drinks here"))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         }
-
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         // notificationId is a unique int for each notification that you must define
@@ -268,7 +269,7 @@ public class OrderDetails extends AppCompatActivity {
             "increased long-term health risks among healthy individuals.” You have drank more than 5 caffeinated drinks today.";
 
             // Test
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(android.R.drawable.star_on)
                     .setContentTitle("Alert: Too much caffeine!")
                     .setContentText(quote)
@@ -283,5 +284,4 @@ public class OrderDetails extends AppCompatActivity {
             notificationManager.notify(notificationId, builder.build());
         }
     }
->>>>>>> 4325110489dd0c1b9a116ccf64c77e080a88e901
 }
