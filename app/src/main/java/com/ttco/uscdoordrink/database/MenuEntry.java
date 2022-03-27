@@ -10,13 +10,15 @@ public class MenuEntry {
     public static final String FIELD_DISCOUNT = "discount";
     public static final String FIELD_OWNER_USERNAME = "owner_username";
 
+    public String id;
     public String drinkName;
     public Boolean isCaffeinated;
     public String price;
     public String discount;
     public String ownerUsername;
 
-    public MenuEntry(String drinkName, Boolean isCaffeinated, String price, String discount, String ownerUsername) {
+    public MenuEntry(String id, String drinkName, Boolean isCaffeinated, String price, String discount, String ownerUsername) {
+        this.id = id;
         this.drinkName = drinkName;
         this.isCaffeinated = isCaffeinated;
         this.price = price;
@@ -24,7 +26,8 @@ public class MenuEntry {
         this.ownerUsername = ownerUsername;
     }
 
-    public MenuEntry(Map<String, Object> map){
+    public MenuEntry(String id, Map<String, Object> map){
+        this.id = id;
         this.drinkName = (String)map.get(FIELD_DRINK_NAME);
         this.isCaffeinated = (Boolean)map.get(FIELD_IS_CAFFEINATED);
         this.price = (String)map.get(FIELD_PRICE);
