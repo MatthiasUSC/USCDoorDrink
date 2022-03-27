@@ -84,6 +84,7 @@ public class OrderDetails extends AppCompatActivity {
         }
         @Override
         public void onComplete(ArrayList<OrderHistoryEntry> orders) {
+            System.out.println(orders.toString());
             System.out.println("Loading data....");
             HashMap<String, Integer> res_visited = new HashMap<>();
             if(orders != null) {
