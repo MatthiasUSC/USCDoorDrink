@@ -2,6 +2,8 @@ package com.ttco.uscdoordrink;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 
 import android.os.Build;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.CustomerOrderListener;
+import com.ttco.uscdoordrink.database.OrderHistoryEntry;
 
 import java.time.DayOfWeek;
 import java.time.Month;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Calendar;
 import android.widget.Button;
@@ -170,8 +174,34 @@ public class OrderDetails extends AppCompatActivity {
         DatabaseInterface.getCustomerOrderHistory(fullname, new OrderHistoryHandler(this));
     }
 
+    // This function is assuming all the orders are within the same day
     public void checkForOverdose(List<OrderHistoryEntry> orders){
-    }
+        int caffeinatedDrinks = 0;
+        for(OrderHistoryEntry order : orders) {
+            if(order.isCaffeinated){
+                caffeinatedDrinks += 1;
+            }
+        }
 
-    
+        if(caffeinatedDrinks > 5){
+            String quote = "Quote from USDA “Currently, strong evidence shows that consumption of coffee within the " +
+            "moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) is not associated with " +
+            "increased long-term health risks among healthy individuals.” You have drank more than 5 caffeinated drinks today.";
+
+            // Test
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.star_on)
+                    .setContentTitle("Alert: Too much caffeine!")
+                    .setContentText(quote)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(quote))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            // notificationId is a unique int for each notification that you must define
+            int notificationId = 0;
+            notificationManager.notify(notificationId, builder.build());
+        }
+    }
 }
