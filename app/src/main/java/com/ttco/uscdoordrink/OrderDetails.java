@@ -79,9 +79,11 @@ public class OrderDetails extends AppCompatActivity {
                     int order_minute = dateTime.getMinute();
                     int order_second = dateTime.getSecond();
 
-                    long diffInMinutes = java.time.Duration.between(dateTime, now).toMinutes();
-                    System.out.println("difference between time in minutes: " + diffInMinutes);
+//                    long diffInMinutes = java.time.Duration.between(dateTime, now).toMinutes();
+//                    System.out.println("difference between time in minutes: " + diffInMinutes);
+                    if(order_month == month) {
 
+                    }
 
 
                     //System.out.println(orders.get(i).drink);
@@ -111,7 +113,7 @@ public class OrderDetails extends AppCompatActivity {
         String fullname = LoginActivity.user.name;
         System.out.println("The full name is " + fullname);
         history = (ListView) findViewById(R.id.orderChart);
-        period_button = findViewById(R.id.period_month);
+        period_button = findViewById(R.id.period);
         period_button.setEnabled(false);
         period_button.setVisibility(View.INVISIBLE);
         DatabaseInterface.getCustomerOrderHistory(fullname, new OrderHistoryHandler(this));
