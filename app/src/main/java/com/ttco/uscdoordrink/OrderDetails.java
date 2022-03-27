@@ -8,18 +8,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.database.*;
 import android.widget.ListView;
-import android.widget.RadioButton;
+
 import com.ttco.uscdoordrink.database.DatabaseInterface;
-import com.ttco.uscdoordrink.database.LoginResultListener;
-import com.ttco.uscdoordrink.database.StoreOrderListener;
-import com.ttco.uscdoordrink.database.UserProfile;
-import com.ttco.uscdoordrink.database.UserProfileListener;
 import com.ttco.uscdoordrink.database.CustomerOrderListener;
 
 import java.util.ArrayList;
@@ -73,7 +66,7 @@ public class OrderDetails extends AppCompatActivity {
         String fullname = LoginActivity.user.name;
         System.out.println("The full name is " + fullname);
         history = (ListView) findViewById(R.id.orderChart);
-        DatabaseInterface.getCustomerOrder(fullname, new OrderHistoryHandler(this));
+        DatabaseInterface.getCustomerOrderHistory(fullname, new OrderHistoryHandler(this));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         System.out.println(dtf.format(now));

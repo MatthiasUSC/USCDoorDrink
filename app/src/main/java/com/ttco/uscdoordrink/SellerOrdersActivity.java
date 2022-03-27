@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.widget.*;
 import android.view.*;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.ttco.uscdoordrink.database.CompleteOrderListener;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.StoreOrderListener;
@@ -49,7 +46,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
         ArrayList<SellerOrder> values;
         // TODO REPLACE bob2 WITH GLOBAL VARIABLE OF SELLER USERNAME THAT IS LOGGED IN, AND SET
         // AT LOGIN
-        DatabaseInterface.getStoreOrders("bob2", new UpdateListListener());
+        DatabaseInterface.getCurrentOrders("bob2", new UpdateListListener());
     }
 
     // Fetches from the database and refreshes order list

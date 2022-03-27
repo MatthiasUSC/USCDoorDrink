@@ -20,6 +20,35 @@ public class DatabaseInterface {
     public static final String PASSWORD_KEY = "password";
     public static final String IS_SELLER_KEY = "is_seller";
 
+    public static Map<String, Object> createCurrentOrderEntry(){
+        return null;
+    }
+
+    public static Map<String, Object> createOrderHistoryEntry(SellerOrder order){
+        Map<String, Object> complete_order = new HashMap<>();
+        complete_order.put("seller_username", order.seller_name);
+        complete_order.put("customer_username", order.customer_name);
+        complete_order.put("drink", order.drink);
+        complete_order.put("start_time", order.startTime);
+        complete_order.put("restaurant_name", order.restaurant_name); //TODO change startTime
+        complete_order.put("restaurant_location", order.restaurant_location);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        complete_order.put("end_time", formatter.format(date));
+        return complete_order;
+    }
+
+    public static Map<String, Object> createUsersEntry(String username, String password, boolean isSeller){
+        Map<String, Object> user = new HashMap<>();
+        user.put(USERNAME_KEY, username);
+        user.put(PASSWORD_KEY, password);
+        user.put(IS_SELLER_KEY, isSeller);
+        return user;
+    }
+
+    public static Map<String, Object> createStoresEntry(){
+        return null;
+    }
 
     public static void doesUsernameExist(String targetUsername, UsernameExistenceListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -75,11 +104,7 @@ public class DatabaseInterface {
     public static void addUserProfile(String username, String password, boolean isSeller){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Map<String, Object> user = new HashMap<>();
-        user.put(USERNAME_KEY, username);
-        user.put(PASSWORD_KEY, password);
-        user.put(IS_SELLER_KEY, isSeller);
-
+        Map<String, Object> user = createUsersEntry(username, password, isSeller);
         db.collection("users").add(user);
     }
 
@@ -105,7 +130,8 @@ public class DatabaseInterface {
             });
     }
 
-    public static void getStoreOrders(String seller_username, StoreOrderListener listener){
+    // Gets all current orders for a given seller
+    public static void getCurrentOrders(String seller_username, StoreOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("current_orders")
@@ -135,7 +161,9 @@ public class DatabaseInterface {
                 }
         });
     }
-    public static void getCustomerOrder(String customer_username, CustomerOrderListener listener){
+
+    // Gets all orders in order history for a given customer
+    public static void getCustomerOrderHistory(String customer_username, CustomerOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("order_histories")
@@ -165,7 +193,6 @@ public class DatabaseInterface {
                 });
     }
 
-
     // Removes store order from current_orders and puts it in order history for customer
     public static void completeStoreOrder(SellerOrder order, CompleteOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -183,17 +210,19 @@ public class DatabaseInterface {
                 }
         );
 
-        Map<String, Object> complete_order = new HashMap<>();
-        complete_order.put("seller_username", order.seller_name);
-        complete_order.put("customer_username", order.customer_name);
-        complete_order.put("drink", order.drink);
-        complete_order.put("start_time", order.startTime);
-        complete_order.put("restaurant_name", order.startTime);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        complete_order.put("end_time", formatter.format(date));
-
+        Map<String, Object> complete_order = createOrderHistoryEntry(order);
         db.collection("order_histories").add(complete_order);
     }
 
+    // Adds a store entry to the store collection
+    public static void addStore(StoreEntry store){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("stores").add(store.toMap());
+    }
+
+    // Adds a menu entry to the store collection
+    public static void addMenuItem(MenuEntry menuItem){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("menu_items").add(menuItem.toMap());
+    }
 }
