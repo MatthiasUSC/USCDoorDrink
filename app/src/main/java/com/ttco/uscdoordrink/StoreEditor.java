@@ -43,7 +43,7 @@ public class StoreEditor extends AppCompatActivity {
         String Name = ItemName.getText().toString();
         String Price = ItemPrice.getText().toString();
         String Discount = ItemDiscount.getText().toString();
-        MenuEntry newItem = new MenuEntry(Name, type, Price, Discount, LoginActivity.user.name);
+        MenuEntry newItem = new MenuEntry("0", Name, type, Price, Discount, LoginActivity.user.name);
         newMenu.add(newItem);
         String tempType = "";
         if(type) {
@@ -80,7 +80,7 @@ public class StoreEditor extends AppCompatActivity {
         EditText storeLocation = (EditText) findViewById(R.id.storeLocation);
         String name = storeName.getText().toString();
         String location = storeName.getText().toString();
-        StoreEntry store = new StoreEntry(name, location, LoginActivity.user.name);
+        StoreEntry store = new StoreEntry("0", name, location, LoginActivity.user.name);
         for(int i = 0; i < newMenu.size(); i ++) {
             DatabaseInterface.addMenuItem(newMenu.get(i));
         }
