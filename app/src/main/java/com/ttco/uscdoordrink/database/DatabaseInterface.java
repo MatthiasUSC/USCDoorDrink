@@ -174,17 +174,18 @@ public class DatabaseInterface {
                     @Override
                     public void onComplete(Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            ArrayList<SellerOrder> orders = new ArrayList<SellerOrder>();
+                            ArrayList<OrderHistoryEntry> orders = new ArrayList<OrderHistoryEntry>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
-                                orders.add(new SellerOrder(
+                                orders.add(new OrderHistoryEntry(
                                         document.getId(),
                                         (String)data.get("customer_username"),
                                         (String)data.get("drink"),
                                         (String)data.get("start_time"),
                                         (String)data.get("seller_username"),
                                         (String)data.get("restaurant_name"),
-                                        (String)data.get("end_time")
+                                        (String)data.get("end_time"),
+                                        (Boolean)data.get("is_caffeinated")
                                 ));
                             }
                             listener.onComplete(orders);

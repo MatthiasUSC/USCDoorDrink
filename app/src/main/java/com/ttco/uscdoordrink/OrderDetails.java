@@ -2,8 +2,12 @@ package com.ttco.uscdoordrink;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.content.Context;
@@ -14,6 +18,7 @@ import android.widget.ListView;
 
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.CustomerOrderListener;
+import com.ttco.uscdoordrink.database.OrderHistoryEntry;
 
 import java.time.DayOfWeek;
 import java.time.Month;
@@ -21,17 +26,22 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Calendar;
 import android.widget.Button;
 
+
+
 public class OrderDetails extends AppCompatActivity {
     ArrayList<String> orderHistory;
-    ArrayList<SellerOrder> copy_orders;
+    ArrayList<OrderHistoryEntry> copy_orders;
     ArrayList<String> displayedHistoryMonth;
     ArrayList<String> displayedHistoryYear;
     ArrayList<String> displayedHistoryDay;
 
+    String ReccomendedName;
     ListView history;
     Button period_button;
     int cycle;
@@ -72,8 +82,9 @@ public class OrderDetails extends AppCompatActivity {
             this.c = c;
         }
         @Override
-        public void onComplete(ArrayList<SellerOrder> orders) {
+        public void onComplete(ArrayList<OrderHistoryEntry> orders) {
             System.out.println("Loading data....");
+            HashMap<String, Integer> res_visited = new HashMap<>();
             if(orders != null) {
                 copy_orders = orders;
                 orderHistory = new ArrayList<String>();
@@ -112,6 +123,13 @@ public class OrderDetails extends AppCompatActivity {
 //                    long diffInMinutes = java.time.Duration.between(dateTime, now).toMinutes();
 //                    System.out.println("difference between time in minutes: " + diffInMinutes);
                     if(order_month == month) {
+                        boolean present = res_visited.containsKey(orders.get(i).restaurant_name);
+                        if(present){
+                            res_visited.put(orders.get(i).restaurant_name, res_visited.get(orders.get(i).restaurant_name) + 1);
+                        }
+                        else {
+                            res_visited.put(orders.get(i).restaurant_name, 1);
+                        }
                         displayedHistoryMonth.add("Drink: " + orders.get(i).drink + "\n"
                                 + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
                                 "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
@@ -133,25 +151,36 @@ public class OrderDetails extends AppCompatActivity {
                                 + "\n" + "Time order received: " + orders.get(i).endTime);
                     }
 
-
-
                     //System.out.println(orders.get(i).drink);
                     //System.out.println(orders.get(i).restaurant_name);
                     //System.out.println(orders.get(i).seller_name);
                     //System.out.println(orders.get(i).startTime);
                 }
+
                 System.out.println("Year: " + year);
                 System.out.println("Month: " + month);
                 System.out.println("Day: " + day);
 
 //                System.out.println(orderHistory.get(0));
+                int maxx_num = 0;
+                for(String key : res_visited.keySet()) {
+                    if(res_visited.get(key) > maxx_num) {
+                        ReccomendedName = key;
+                        maxx_num = res_visited.get(key);
+                    }
+
+                }
+                System.out.println("ReccomendedName is: " + ReccomendedName );
+
 
                 ArrayAdapter arrayAdapter = new ArrayAdapter(c, android.R.layout.simple_list_item_1, displayedHistoryMonth);
                 history.setAdapter(arrayAdapter);
                 period_button.setEnabled(true);
                 period_button.setVisibility(View.VISIBLE);
                 period_button.setText("Month");
+                createNotificationChannel();
             }
+
 
         }
     }
@@ -162,6 +191,7 @@ public class OrderDetails extends AppCompatActivity {
         setContentView(R.layout.activity_order_details);
         String fullname = LoginActivity.user.name;
         cycle = 0;
+        ReccomendedName = "";
         System.out.println("The full name is " + fullname);
         history = (ListView) findViewById(R.id.orderChart);
         period_button = (Button) findViewById(R.id.period);
@@ -170,6 +200,53 @@ public class OrderDetails extends AppCompatActivity {
         DatabaseInterface.getCustomerOrderHistory(fullname, new OrderHistoryHandler(this));
     }
 
+
+    // Needed for notifications
+    public static final String CHANNEL_NAME = "notification_channel";
+    public static final String CHANNEL_DESCRIPTION = "A channel for notifications.";
+    public static final String CHANNEL_ID = "0";
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = CHANNEL_NAME;
+            String description = CHANNEL_DESCRIPTION;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // Test
+        NotificationCompat.Builder builder;
+        if(!ReccomendedName.equals("")) {
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.star_on)
+                    .setContentTitle("Recommendation")
+                    .setContentText("You visited " + ReccomendedName + " the most this month we recommend you visit this place again.")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("You visited " + ReccomendedName + " the most this month we recommend you visit this place again."))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        }
+        else{
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.star_on)
+                    .setContentTitle("Recommendation")
+                    .setContentText("You haven't had anything to drink yet - grab some drinks here")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("You haven't had anything to drink yet - grab some drinks here"))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        }
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        // notificationId is a unique int for each notification that you must define
+        int notificationId = 0;
+        notificationManager.notify(notificationId, builder.build());
+    }
 
 
 
