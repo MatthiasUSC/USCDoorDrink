@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     // Creates a lot of mock order histories
     void populate_order_history(){
         for(int i = 0; i < 10; i++) {
-            OrderHistoryEntry testEntry = new OrderHistoryEntry("0", "hello", "water", "18/03/2022 20:15:59", "chipole" + String.valueOf(i), "bob2", "10:00", true, "here");
+            OrderHistoryEntry testEntry = new OrderHistoryEntry("0", "hello", "water", "27/03/2022 20:15:59", "chipole" + String.valueOf(i), "bob2", "27/03/2022 20:15:59", true, "here");
             DatabaseInterface.addOrderHistory(testEntry.toHashMap());
         }
     }

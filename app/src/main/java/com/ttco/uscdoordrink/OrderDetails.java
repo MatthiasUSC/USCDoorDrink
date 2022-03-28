@@ -84,7 +84,7 @@ public class OrderDetails extends AppCompatActivity {
         }
         @Override
         public void onComplete(ArrayList<OrderHistoryEntry> orders) {
-            System.out.println(orders.toString());
+
             System.out.println("Loading data....");
             HashMap<String, Integer> res_visited = new HashMap<>();
             if(orders != null) {
@@ -105,10 +105,11 @@ public class OrderDetails extends AppCompatActivity {
                 ArrayList<OrderHistoryEntry> dayOrders = new ArrayList<OrderHistoryEntry>();
 
                 for (int i = 0; i < orders.size(); i++) {
+                    System.out.println(orders.get(i).drink);
                     orderHistory.add("Drink: " + orders.get(i).drink + "\n"
                             + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
                             "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
-                            //+ orders.get(i).orderLocation
+                            + orders.get(i).order_location
                             + "\n" + "Time order received: " + orders.get(i).endTime
 
                     );
@@ -136,21 +137,21 @@ public class OrderDetails extends AppCompatActivity {
                         displayedHistoryMonth.add("Drink: " + orders.get(i).drink + "\n"
                                 + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
                                 "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
-                                //+ orders.get(i).orderLocation
+                                + orders.get(i).order_location
                                 + "\n" + "Time order received: " + orders.get(i).endTime);
                     }
                     if(order_year == year){
                         displayedHistoryYear.add("Drink: " + orders.get(i).drink + "\n"
                                 + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
                                 "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
-                                //+ orders.get(i).orderLocation
+                                + orders.get(i).order_location
                                 + "\n" + "Time order received: " + orders.get(i).endTime);
                     }
                     if(order_day == day){
                         displayedHistoryDay.add("Drink: " + orders.get(i).drink + "\n"
                                 + "Restaurant: " + orders.get(i).restaurant_name + "\n" +
                                 "Time ordered: " + orders.get(i).startTime + "\n" + "Place enjoyed beverage: "
-                                //+ orders.get(i).orderLocation
+                                + orders.get(i).order_location
                                 + "\n" + "Time order received: " + orders.get(i).endTime);
 
                         dayOrders.add(orders.get(i));
@@ -257,9 +258,9 @@ public class OrderDetails extends AppCompatActivity {
     }
 
     // This function is assuming all the orders are within the same day
-    public void checkForOverdose(List<OrderHistoryEntry> orders){
+    public void checkForOverdose(List<OrderHistoryEntry> dayOrders){
         int caffeinatedDrinks = 0;
-        for(OrderHistoryEntry order : orders) {
+        for(OrderHistoryEntry order : dayOrders) {
             if(order.isCaffeinated){
                 caffeinatedDrinks += 1;
             }
@@ -280,7 +281,7 @@ public class OrderDetails extends AppCompatActivity {
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             // notificationId is a unique int for each notification that you must define
-            int notificationId = 0;
+            int notificationId = 1;
             notificationManager.notify(notificationId, builder.build());
         }
     }

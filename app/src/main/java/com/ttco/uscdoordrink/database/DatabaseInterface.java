@@ -156,7 +156,7 @@ public class DatabaseInterface {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("order_histories")
-                .whereEqualTo("customer_username", customer_username)
+                .whereEqualTo(OrderHistoryEntry.FIELD_CUSTOMER_NAME, customer_username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
