@@ -10,23 +10,33 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ttco.uscdoordrink.database.MenuEntry;
+
+import java.util.ArrayList;
+
 public class StoreMenuActivity extends AppCompatActivity {
 
-    @Override
+
+
+    ArrayList<MenuEntry> cart;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_menu);
 
         LinearLayout storeMenu = findViewById(R.id.store_menu);
 
-        // TODO: Extact menu items from DB
+
         for(int i = 0; i < 20; i++){
             Button menuItem = new Button(this);
             menuItem.setText("pipisote " + i);
 
             menuItem.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+
                     // Code here executes on main thread after user presses button
+
+
                 }
             });
 
