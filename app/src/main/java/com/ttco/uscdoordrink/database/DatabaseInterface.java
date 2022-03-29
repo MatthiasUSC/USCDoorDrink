@@ -256,9 +256,13 @@ public class DatabaseInterface {
                     public void onComplete(Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             ArrayList<StoreEntry> stores = new ArrayList<StoreEntry>();
+                            System.out.println("_____________________\n___________________\n onCompleteDBCall");
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
                                 stores.add(new StoreEntry(document.getId(), data));
+                                System.out.println("\n\n*****************************\n"
+                                        + data.toString()
+                                        + "\n\n*****************************\n");
                             }
                             listener.onComplete(stores);
                         } else {

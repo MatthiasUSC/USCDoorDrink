@@ -19,7 +19,7 @@ public class StoreMenuActivity extends AppCompatActivity {
 
         LinearLayout storeMenu = findViewById(R.id.store_menu);
 
-        // TODO: Extact menu items from DB
+
         for(int i = 0; i < 20; i++){
             Button menuItem = new Button(this);
             menuItem.setText("pipisote " + i);
