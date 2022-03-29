@@ -1,6 +1,6 @@
 package com.ttco.uscdoordrink;
 
-public class User {
+public class  User {
     String name;
     String password;
     Boolean type; //True is seller, False is customer

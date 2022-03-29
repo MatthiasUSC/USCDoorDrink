@@ -6,11 +6,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SellerOrdersAdapter extends ArrayAdapter<SellerOrder> {
-    private final Context context;
-    private final SellerOrder[] values;
+import com.ttco.uscdoordrink.database.CurrentOrderEntry;
 
-    public SellerOrdersAdapter(Context context, SellerOrder[] values) {
+public class SellerOrdersAdapter extends ArrayAdapter<CurrentOrderEntry> {
+    private final Context context;
+    private final CurrentOrderEntry[] values;
+
+    public SellerOrdersAdapter(Context context, CurrentOrderEntry[] values) {
         super(context, -1, values); // I think you pass -1 here because the resource id
         // is only used in the getView function of the ArrayAdapter, which is what I am overriding
         this.context = context;

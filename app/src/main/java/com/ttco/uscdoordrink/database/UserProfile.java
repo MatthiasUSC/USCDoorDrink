@@ -10,4 +10,5 @@ public class UserProfile {
         this.password = password;
         this.isSeller = isSeller;
     }
+
 }
