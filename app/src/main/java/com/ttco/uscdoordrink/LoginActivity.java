@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
         private class LoginEvent implements LoginResultListener {
             String fullname;
             Context context;
