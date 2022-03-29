@@ -2,6 +2,7 @@ package com.ttco.uscdoordrink;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -287,6 +288,27 @@ public class MapsActivity extends FragmentActivity implements
 
         if(lastClickedMarker != null){
             calculateDirections(lastClickedMarker);
+        }
+    }
+
+    public void onClickToSellerOrders(View view){
+        if(LoginActivity.user.type == true){ // If seller, then go to seller page
+            Intent intent = new Intent(this.getApplicationContext(), SellerOrdersActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void onClickToOrderHistory(View view){
+        if(LoginActivity.user.type == false){ // If not seller
+            Intent intent = new Intent(this.getApplicationContext(), OrderDetails.class);
+            startActivity(intent);
+        }
+    }
+
+    public void onClickToStoreEditor(View view){
+        if(LoginActivity.user.type == true){ // If seller
+            Intent intent = new Intent(this.getApplicationContext(), StoreEditor.class);
+            startActivity(intent);
         }
     }
 

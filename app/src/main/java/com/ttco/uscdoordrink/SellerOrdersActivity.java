@@ -50,7 +50,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
 
     // Fetches from the database and refreshes order list
     public void goBack(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
