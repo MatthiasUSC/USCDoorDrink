@@ -1,4 +1,5 @@
 package com.ttco.uscdoordrink.database;
+
 import com.google.firebase.firestore.*;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -196,7 +197,13 @@ public class DatabaseInterface {
         addOrderHistory(createOrderHistoryEntryFromCurrentOrderEntry(order));
     }
 
-    // Adds a order history entry to the store collection
+    // Adds a order history entry to the current_orders collection
+    public static void addCurrentOrder(CurrentOrderEntry current_order){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("current_orders").add(current_order.toHashMap());
+    }
+
+    // Adds a order history entry to the order_histories collection
     public static void addOrderHistory(Map<String, Object> complete_order){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("order_histories").add(complete_order);
@@ -208,9 +215,60 @@ public class DatabaseInterface {
         db.collection("stores").add(store.toMap());
     }
 
-    // Adds a menu entry to the store collection
+    // Adds a menu entry to the menu_items collection
     public static void addMenuItem(MenuEntry menuItem){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("menu_items").add(menuItem.toMap());
+    }
+
+    //Gets all menu entries linked to a specific seller
+    public static void getMenuItems(String seller_name, MenuListener listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("menu_items")
+                .whereEqualTo(MenuEntry.FIELD_OWNER_USERNAME, seller_name)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<MenuEntry> menu = new ArrayList<MenuEntry>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+                                menu.add(new MenuEntry(document.getId(), data));
+                            }
+                            listener.onComplete(menu);
+                        } else {
+                            listener.onComplete(null);
+                        }
+                    }
+                });
+    }
+
+    // Gets all stores in the database (doesn't scale)
+    public static void getStores(StoreListener listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("stores")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<StoreEntry> stores = new ArrayList<StoreEntry>();
+                            System.out.println("_____________________\n___________________\n onCompleteDBCall");
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+                                stores.add(new StoreEntry(document.getId(), data));
+                                System.out.println("\n\n*****************************\n"
+                                        + data.toString()
+                                        + "\n\n*****************************\n");
+                            }
+                            listener.onComplete(stores);
+                        } else {
+                            listener.onComplete(null);
+                        }
+                    }
+                });
     }
 }
