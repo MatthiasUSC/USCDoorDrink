@@ -88,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements
     private Polyline lastPolyline = null;
     private Duration lastDuration;
     private TravelMode currentTravelMode = TravelMode.DRIVING;
-    private Marker lastClickedMarker = null;
+    public static Marker lastClickedMarker = null;
 
     private class StoreFetch implements StoreListener {
         @Override
@@ -107,7 +107,8 @@ public class MapsActivity extends FragmentActivity implements
                 LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
                 map.addMarker(new MarkerOptions()
                         .position(pos)
-                        .title(store.storeName));
+                        .title(store.storeName))
+                        .setTag(store);
                 i++;
             }
 
@@ -182,6 +183,7 @@ public class MapsActivity extends FragmentActivity implements
                     .title("Store #" + i));
         }
         */
+
         DatabaseInterface.getStores(new StoreFetch());
 
 
@@ -271,6 +273,10 @@ public class MapsActivity extends FragmentActivity implements
                                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            }else{
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(defaultLocation.latitude,
+                                                defaultLocation.longitude), DEFAULT_ZOOM));
                             }
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
@@ -354,12 +360,21 @@ public class MapsActivity extends FragmentActivity implements
         DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
 
         directions.alternatives(false);
-        directions.origin(
-                new com.google.maps.model.LatLng(
-                        lastKnownLocation.getLatitude(),
-                        lastKnownLocation.getLongitude()
-                )
-        );
+        if(lastKnownLocation != null){
+            directions.origin(
+                    new com.google.maps.model.LatLng(
+                            lastKnownLocation.getLatitude(),
+                            lastKnownLocation.getLongitude()
+                    )
+            );
+        }else{
+            directions.origin(
+                    new com.google.maps.model.LatLng(
+                            defaultLocation.latitude,
+                            defaultLocation.longitude
+                    ));
+        }
+
         directions.mode(currentTravelMode);
 
         Log.d(TAG, "calculateDirections: destination: " + destination.toString());
@@ -423,15 +438,9 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     public void onClickOpenMenuBtn(View view) {
-        Button b = (Button)view;
-        String buttonText = b.getText().toString();
-
         if(lastClickedMarker != null){
-
+            Intent intent = new Intent(this, StoreMenuActivity.class);
+            startActivity(intent);
         }
-
-
-        // TODO: Send intent to open Menu Activity
-
     }
 }

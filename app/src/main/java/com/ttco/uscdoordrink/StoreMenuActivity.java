@@ -18,6 +18,7 @@ import com.ttco.uscdoordrink.database.CurrentOrderEntry;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.MenuEntry;
 import com.ttco.uscdoordrink.database.MenuListener;
+import com.ttco.uscdoordrink.database.StoreEntry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,15 +57,16 @@ public class StoreMenuActivity extends AppCompatActivity {
         }
         @Override
         public void onComplete(List<MenuEntry> menu) {
+            LinearLayout storeMenu = findViewById(R.id.store_menu);
+            for(MenuEntry menuItem : menu){
+                Button itemButton = new Button(context);
+                itemButton.setText(menuItem.drinkName);
 
-            for(int i = 0; i < menu.size(); i++){
-                Button menuItem = new Button(context);
-                menuItem.setText(menu.get(i).drinkName);
-
-                menuItem.setOnClickListener(new ClickListener(menu.get(i)));
+                itemButton.setOnClickListener(new ClickListener(menuItem));
 
                 LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                menuItem.setLayoutParams(params2);
+                itemButton.setLayoutParams(params2);
+                storeMenu.addView(itemButton);
 
             }
         }
@@ -73,8 +75,12 @@ public class StoreMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_menu);
-        getMenuItems(LoginActivity.user.name, new GetMenuEvent(this));
-        LinearLayout storeMenu = findViewById(R.id.store_menu);
+        StoreEntry store = (StoreEntry) MapsActivity.lastClickedMarker.getTag();
+        System.out.println("++++++++++++++++++++++ STORE USERNAME \n"
+                            + store.ownerUsername
+                            + "++++++++++++++++++++++ STORE USERNAME \n");
+        getMenuItems(store.ownerUsername, new GetMenuEvent(this));
+
 
 
     }
