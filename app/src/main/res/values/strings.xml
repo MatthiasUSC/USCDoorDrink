@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UscDoorDrink</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="google_maps_api_key">AIzaSyBI1Qh3ZXVTgkAhtXUpslgUoTlMNkNBQ7Y</string>
 </resources>
