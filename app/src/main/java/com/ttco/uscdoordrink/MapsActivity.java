@@ -1,6 +1,7 @@
 package com.ttco.uscdoordrink;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -47,6 +48,11 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.Duration;
 import com.google.maps.model.TravelMode;
+import com.ttco.uscdoordrink.database.DatabaseInterface;
+import com.ttco.uscdoordrink.database.StoreEntry;
+import com.ttco.uscdoordrink.database.StoreListener;
+import com.ttco.uscdoordrink.database.UserProfile;
+import com.ttco.uscdoordrink.database.UserProfileListener;
 import com.ttco.uscdoordrink.databinding.ActivityMapsBinding;
 
 import java.util.ArrayList;
@@ -83,6 +89,30 @@ public class MapsActivity extends FragmentActivity implements
     private Duration lastDuration;
     private TravelMode currentTravelMode = TravelMode.DRIVING;
     private Marker lastClickedMarker = null;
+
+    private class StoreFetch implements StoreListener {
+        @Override
+        public void onComplete(List<StoreEntry> stores) {
+            /*
+            This is were the stores are fetched and added to a list
+             */
+
+            // TODO: Change to actual coord of stores
+            double lat = 34.019709;
+            double lng = -118.291449;
+            int i = 0;
+            System.out.println("\n\n\n+++++++++++\n" + stores.toString() + "\n\n\n+++++++++++\n");
+            for(StoreEntry store : stores){
+                System.out.println("\n\n\n+++++++++++\n" + store.toString() + "\n\n\n+++++++++++\n");
+                LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
+                map.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .title(store.storeName));
+                i++;
+            }
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +171,7 @@ public class MapsActivity extends FragmentActivity implements
         getDeviceLocation();
 
         // TODO: Populate map from DB
+        /*
         double lat = 34.019709;
         double lng = -118.291449;
 
@@ -150,6 +181,8 @@ public class MapsActivity extends FragmentActivity implements
                     .position(pos)
                     .title("Store #" + i));
         }
+        */
+        DatabaseInterface.getStores(new StoreFetch());
 
 
         /*
@@ -392,6 +425,11 @@ public class MapsActivity extends FragmentActivity implements
     public void onClickOpenMenuBtn(View view) {
         Button b = (Button)view;
         String buttonText = b.getText().toString();
+
+        if(lastClickedMarker != null){
+
+        }
+
 
         // TODO: Send intent to open Menu Activity
 
