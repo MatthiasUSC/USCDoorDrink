@@ -324,6 +324,27 @@ public class MapsActivity extends FragmentActivity implements
         }
     }
 
+    public void onClickToSellerOrders(View view){
+        if(LoginActivity.user.type == true){ // If seller, then go to seller page
+            Intent intent = new Intent(this.getApplicationContext(), SellerOrdersActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void onClickToOrderHistory(View view){
+        if(LoginActivity.user.type == false){ // If not seller
+            Intent intent = new Intent(this.getApplicationContext(), OrderDetails.class);
+            startActivity(intent);
+        }
+    }
+
+    public void onClickToStoreEditor(View view){
+        if(LoginActivity.user.type == true){ // If seller
+            Intent intent = new Intent(this.getApplicationContext(), StoreEditor.class);
+            startActivity(intent);
+        }
+    }
+
     private void calculateDirections(Marker marker){
         Log.d(TAG, "calculateDirections: calculating directions.");
         com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(

@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 user = new User(userProfile.username, userProfile.password, userProfile.isSeller);
                 System.out.println("Reached point of logging in");
-                Intent intent = new Intent(context, StoreMenuActivity.class);
+                Intent intent = new Intent(context, MapsActivity.class);
                 startActivity(intent);
 
             }
