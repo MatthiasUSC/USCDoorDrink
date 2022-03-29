@@ -139,6 +139,7 @@ public class MapsActivity extends FragmentActivity implements
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
 
+        // TODO: Populate map from DB
         double lat = 34.019709;
         double lng = -118.291449;
 
@@ -371,5 +372,6 @@ public class MapsActivity extends FragmentActivity implements
         String buttonText = b.getText().toString();
 
         // TODO: Send intent to open Menu Activity
+
     }
 }
