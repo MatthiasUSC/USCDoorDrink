@@ -69,6 +69,10 @@ public class LoginActivity extends AppCompatActivity {
         //Put api firebase
         DatabaseInterface.getLoginResult(Fullname, Password, new LoginEvent(Fullname, this));
 
+        
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+
     }
     public void RegisterPage(View view){
         Intent intent = new Intent(this, MainActivity.class);

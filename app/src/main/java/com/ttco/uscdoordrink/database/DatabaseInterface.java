@@ -200,7 +200,7 @@ public class DatabaseInterface {
     // Adds a order history entry to the current_orders collection
     public static void addCurrentOrder(CurrentOrderEntry current_order){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("current_orders").add(current_order.toHashMap());
+        db.collection("current_orders").add(current_order.toMap());
     }
 
     // Adds a order history entry to the order_histories collection
