@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements
     private Location lastKnownLocation;
 
     private static final int DEFAULT_ZOOM = 15;
-    private final LatLng defaultLocation = new LatLng(34.022165, -118.285112);
+    private final LatLng defaultLocation = new LatLng(34.0251724688, -118.290905569);
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
@@ -117,6 +117,7 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
@@ -269,6 +270,7 @@ public class MapsActivity extends FragmentActivity implements
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
+
                             if (lastKnownLocation != null) {
                                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
@@ -306,7 +308,13 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         lastClickedMarker = marker;
-        calculateDirections(marker);
+
+        if(lastKnownLocation == null){
+            getDeviceLocation();
+        }else{
+            calculateDirections(marker);
+        }
+
         // TODO: Show hidden buttons
         return false;
     }

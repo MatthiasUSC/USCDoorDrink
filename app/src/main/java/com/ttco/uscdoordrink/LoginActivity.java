@@ -64,12 +64,11 @@ public class LoginActivity extends AppCompatActivity {
     public void Loggingin(View view){
         String Fullname = lusername.getText().toString();
         String Password = lpassword.getText().toString();
-//        System.out.println("The fullname is: " + Fullname);
-//        System.out.println("The password is: " + Password);
+        //System.out.println("The fullname is: " + Fullname);
+        //System.out.println("The password is: " + Password);
         //Put api firebase
         DatabaseInterface.getLoginResult(Fullname, Password, new LoginEvent(Fullname, this));
 
-        
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
 
