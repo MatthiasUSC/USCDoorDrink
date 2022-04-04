@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements
     private Location lastKnownLocation;
 
     private static final int DEFAULT_ZOOM = 15;
-    private final LatLng defaultLocation = new LatLng(34.022165, -118.285112);
+    private final LatLng defaultLocation = new LatLng(34.0251724688, -118.290905569);
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
@@ -88,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements
     private Polyline lastPolyline = null;
     private Duration lastDuration;
     private TravelMode currentTravelMode = TravelMode.DRIVING;
-    private Marker lastClickedMarker = null;
+    public static Marker lastClickedMarker = null;
 
     private class StoreFetch implements StoreListener {
         @Override
@@ -107,7 +107,8 @@ public class MapsActivity extends FragmentActivity implements
                 LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
                 map.addMarker(new MarkerOptions()
                         .position(pos)
-                        .title(store.storeName));
+                        .title(store.storeName))
+                        .setTag(store);
                 i++;
             }
 
@@ -116,6 +117,7 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
@@ -182,6 +184,7 @@ public class MapsActivity extends FragmentActivity implements
                     .title("Store #" + i));
         }
         */
+
         DatabaseInterface.getStores(new StoreFetch());
 
 
@@ -267,10 +270,15 @@ public class MapsActivity extends FragmentActivity implements
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
+
                             if (lastKnownLocation != null) {
                                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            }else{
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(defaultLocation.latitude,
+                                                defaultLocation.longitude), DEFAULT_ZOOM));
                             }
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
@@ -300,7 +308,13 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         lastClickedMarker = marker;
-        calculateDirections(marker);
+
+        if(lastKnownLocation == null){
+            getDeviceLocation();
+        }else{
+            calculateDirections(marker);
+        }
+
         // TODO: Show hidden buttons
         return false;
     }
@@ -354,12 +368,21 @@ public class MapsActivity extends FragmentActivity implements
         DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
 
         directions.alternatives(false);
-        directions.origin(
-                new com.google.maps.model.LatLng(
-                        lastKnownLocation.getLatitude(),
-                        lastKnownLocation.getLongitude()
-                )
-        );
+        if(lastKnownLocation != null){
+            directions.origin(
+                    new com.google.maps.model.LatLng(
+                            lastKnownLocation.getLatitude(),
+                            lastKnownLocation.getLongitude()
+                    )
+            );
+        }else{
+            directions.origin(
+                    new com.google.maps.model.LatLng(
+                            defaultLocation.latitude,
+                            defaultLocation.longitude
+                    ));
+        }
+
         directions.mode(currentTravelMode);
 
         Log.d(TAG, "calculateDirections: destination: " + destination.toString());
@@ -423,15 +446,9 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     public void onClickOpenMenuBtn(View view) {
-        Button b = (Button)view;
-        String buttonText = b.getText().toString();
-
         if(lastClickedMarker != null){
-
+            Intent intent = new Intent(this, StoreMenuActivity.class);
+            startActivity(intent);
         }
-
-
-        // TODO: Send intent to open Menu Activity
-
     }
 }

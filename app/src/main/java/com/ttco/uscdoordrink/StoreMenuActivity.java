@@ -2,9 +2,12 @@ package com.ttco.uscdoordrink;
 
 import static com.ttco.uscdoordrink.database.DatabaseInterface.getMenuItems;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,37 +21,66 @@ import com.ttco.uscdoordrink.database.CurrentOrderEntry;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.MenuEntry;
 import com.ttco.uscdoordrink.database.MenuListener;
+import com.ttco.uscdoordrink.database.StoreEntry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-class ClickListener implements View.OnClickListener {
-    public MenuEntry menuEntry;
-
-    public ClickListener(MenuEntry menuEntry) {
-        this.menuEntry = menuEntry;
-    }
-
-    public void onClick(View v){
-            SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
-            // Code here executes on main thread after user presses button
-            CurrentOrderEntry currentOrder=new CurrentOrderEntry("0",
-            LoginActivity.user.name,
-            menuEntry.drinkName,
-            formatter.format(date),
-            menuEntry.ownerUsername,
-            "TODO",
-            "TODO");
-            DatabaseInterface.addCurrentOrder(currentOrder);
-    }
-}
-
 public class StoreMenuActivity extends AppCompatActivity {
 
-    ArrayList<MenuEntry> cart;
+    List<MenuEntry> fullMenu;
+    StoreEntry store = (StoreEntry) MapsActivity.lastClickedMarker.getTag();
+    StoreMenuActivity context = this;
+
+    View.OnClickListener menuItemClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+
+            Button btn = (Button) view;
+            String drinkName = btn.getText().toString();
+
+            MenuEntry selection = null;
+
+            for(MenuEntry item : fullMenu){
+                if(item.drinkName.equalsIgnoreCase(drinkName)){
+                    selection = item;
+                    break;
+                }
+            }
+
+            if(selection == null) return;
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
+            // LoginActivity.user.name
+            // Code here executes on main thread after user presses button
+            CurrentOrderEntry currentOrder = new CurrentOrderEntry("0",
+                    LoginActivity.user.name,
+                    selection.drinkName,
+                    formatter.format(date),
+                    selection.ownerUsername,
+                    store.storeName,
+                    store.storeLocation,
+                    selection.isCaffeinated);
+
+            DatabaseInterface.addCurrentOrder(currentOrder);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("Order created succesfully!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    };
+
+
     private class GetMenuEvent implements MenuListener {
         Context context;
         GetMenuEvent(Context c){
@@ -56,15 +88,19 @@ public class StoreMenuActivity extends AppCompatActivity {
         }
         @Override
         public void onComplete(List<MenuEntry> menu) {
+            LinearLayout storeMenu = findViewById(R.id.store_menu);
 
-            for(int i = 0; i < menu.size(); i++){
-                Button menuItem = new Button(context);
-                menuItem.setText(menu.get(i).drinkName);
+            fullMenu = new ArrayList<MenuEntry>(menu);
 
-                menuItem.setOnClickListener(new ClickListener(menu.get(i)));
+            for(MenuEntry menuItem : menu){
+                Button itemButton = new Button(context);
+                itemButton.setText(menuItem.drinkName);
+
+                itemButton.setOnClickListener(menuItemClick);
 
                 LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                menuItem.setLayoutParams(params2);
+                itemButton.setLayoutParams(params2);
+                storeMenu.addView(itemButton);
 
             }
         }
@@ -73,7 +109,16 @@ public class StoreMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_menu);
-        getMenuItems(LoginActivity.user.name, new GetMenuEvent(this));
-        LinearLayout storeMenu = findViewById(R.id.store_menu);
+        StoreEntry store = (StoreEntry) MapsActivity.lastClickedMarker.getTag();
+        getMenuItems(store.ownerUsername, new GetMenuEvent(this));
+
+        TextView storeName = findViewById(R.id.store_name);
+        storeName.setText(store.storeName);
     }
+
+    public void onClickReturnBtn(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
 }
