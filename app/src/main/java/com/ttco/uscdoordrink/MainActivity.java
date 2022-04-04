@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
         }
     }
+
     public void Registering(View view){
         Fullname = username.getText().toString();
         Password = password.getText().toString();
@@ -90,11 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseInterface.doesUsernameExist(Fullname, new UserHandler(Fullname, Password, finalType));
     }
+
     public void LoginPage(View view){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-
-
-
 }
