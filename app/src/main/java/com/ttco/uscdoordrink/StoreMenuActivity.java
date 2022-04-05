@@ -57,7 +57,7 @@ public class StoreMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_menu);
-        getMenuItems(LoginActivity.user.name, new GetMenuEvent(this));
+        //getMenuItems(LoginActivity.user.name, new GetMenuEvent(this));
         LinearLayout storeMenu = findViewById(R.id.store_menu);
 
 

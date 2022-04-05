@@ -15,7 +15,7 @@
         android:theme="@style/Theme.UscDoorDrink" >
 
         <activity
-            android:name=".StoreMenuActivity"
+            android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
