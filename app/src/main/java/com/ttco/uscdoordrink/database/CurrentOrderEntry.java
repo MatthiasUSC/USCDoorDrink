@@ -2,6 +2,7 @@ package com.ttco.uscdoordrink.database;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CurrentOrderEntry {
     public String doc_id;
@@ -22,7 +23,9 @@ public class CurrentOrderEntry {
     public static final String FIELD_ORDER_LOCATION = "order_location";
 
 
-    public CurrentOrderEntry(String doc_id, String customer_name, String drink, String startTime, String seller_name, String restaurant_name, String order_location, boolean isCaffeinated) {
+    public CurrentOrderEntry(String doc_id, String customer_name, String drink, String startTime,
+                             String seller_name, String restaurant_name, String order_location,
+                             boolean isCaffeinated) {
         this.doc_id = doc_id;
         this.customer_name = customer_name;
         this.drink = drink;
@@ -32,6 +35,20 @@ public class CurrentOrderEntry {
         this.order_location = order_location;
         this.isCaffeinated = isCaffeinated;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CurrentOrderEntry that = (CurrentOrderEntry) o;
+        return isCaffeinated == that.isCaffeinated && Objects.equals(doc_id, that.doc_id) &&
+                Objects.equals(customer_name, that.customer_name)
+                && Objects.equals(drink, that.drink) && Objects.equals(startTime, that.startTime)
+                && Objects.equals(seller_name, that.seller_name)
+                && Objects.equals(restaurant_name, that.restaurant_name)
+                && Objects.equals(order_location, that.order_location);
+    }
+
 
 
     public CurrentOrderEntry(String doc_id, Map<String, Object> map){
