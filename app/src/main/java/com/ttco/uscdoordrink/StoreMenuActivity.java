@@ -94,7 +94,8 @@ public class StoreMenuActivity extends AppCompatActivity {
 
             for(MenuEntry menuItem : menu){
                 Button itemButton = new Button(context);
-                itemButton.setText(menuItem.drinkName);
+                String decaf = menuItem.isCaffeinated ? "Decaffeinated" : "Caffeinated";
+                itemButton.setText(menuItem.drinkName + " (" + decaf + ") " + menuItem.price);
 
                 itemButton.setOnClickListener(menuItemClick);
 
