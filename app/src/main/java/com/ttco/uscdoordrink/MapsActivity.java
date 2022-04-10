@@ -118,6 +118,8 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // TODO: Hide buttons that do not correspond to user
+
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
@@ -166,8 +168,7 @@ public class MapsActivity extends FragmentActivity implements
         updateLocationUI();
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
-
-        // TODO: Populate map from DB
+        // Fetch stores from DB and populate map
         DatabaseInterface.getStores(new StoreFetch());
 
     }
@@ -290,15 +291,13 @@ public class MapsActivity extends FragmentActivity implements
             calculateDirections(marker);
         }
 
-        // TODO: Show hidden buttons
+        // TODO: Show open menu hidden button
         return false;
     }
 
     public void onClickTravelModeBtn(View view){
         Button b = (Button)view;
         String buttonText = b.getText().toString();
-
-        // TODO: Highlight last clicked button
 
         if(buttonText.equalsIgnoreCase("Driving")){
             currentTravelMode = TravelMode.DRIVING;

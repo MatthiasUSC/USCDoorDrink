@@ -48,7 +48,7 @@ public class OrderDetails extends AppCompatActivity {
     int cycle;
 
     public void toMap(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
