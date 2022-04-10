@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class CaffeineTest {
+public class CaffeineTest {
     @Test
     public void overdoseTest() {
         List<OrderHistoryEntry> dayOrders = new ArrayList<OrderHistoryEntry>();
@@ -33,6 +33,7 @@ class CaffeineTest {
         assertFalse(OrderDetails.isOverdoseHistory(dayOrders));
         dayOrders.add(testObjCaf);
         assertFalse(OrderDetails.isOverdoseHistory(dayOrders));
+        dayOrders.add(testObjCaf);
         dayOrders.add(testObjCaf);
         dayOrders.add(testObjCaf);
         dayOrders.add(testObjCaf);

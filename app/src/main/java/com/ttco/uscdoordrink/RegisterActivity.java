@@ -12,7 +12,7 @@ import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.OrderHistoryEntry;
 import com.ttco.uscdoordrink.database.UsernameExistenceListener;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     Boolean HasClicked;
