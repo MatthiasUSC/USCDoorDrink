@@ -59,9 +59,6 @@ public class SellerOrdersActivity extends AppCompatActivity {
     class UpdateListListener implements StoreOrderListener {
         public void onComplete(ArrayList<CurrentOrderEntry> orders){
             CurrentOrderEntry[] arr = new CurrentOrderEntry[orders.size()];
-            for(int i = 0; i < arr.length; i++){
-                System.out.println("Order: " + arr[i].doc_id);
-            }
             final ArrayAdapter<CurrentOrderEntry> adapter =
                     new SellerOrdersAdapter(getApplicationContext(), orders.toArray(arr));
             listview.setAdapter(adapter);
