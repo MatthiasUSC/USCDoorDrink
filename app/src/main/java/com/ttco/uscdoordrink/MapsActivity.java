@@ -160,12 +160,7 @@ public class MapsActivity extends FragmentActivity implements
         this.map = googleMap;
         this.map.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
 
-        /*
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        */
+        // Request the user permission location.
         getLocationPermission();
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
@@ -173,28 +168,8 @@ public class MapsActivity extends FragmentActivity implements
         getDeviceLocation();
 
         // TODO: Populate map from DB
-        /*
-        double lat = 34.019709;
-        double lng = -118.291449;
-
-        for(int i = 0; i < 6; i++){
-            LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
-            googleMap.addMarker(new MarkerOptions()
-                    .position(pos)
-                    .title("Store #" + i));
-        }
-        */
-
         DatabaseInterface.getStores(new StoreFetch());
 
-
-        /*
-        double lat = lastKnownLocation.getLatitude();
-        double lng = lastKnownLocation.getLongitude();
-        LatLng location = new LatLng(lat, lng);
-        mMap.addMarker(new MarkerOptions().position(location).title("Marker in Joe Momma"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        */
     }
 
     private void getLocationPermission() {
