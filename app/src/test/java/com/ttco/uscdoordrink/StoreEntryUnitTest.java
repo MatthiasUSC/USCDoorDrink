@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.ttco.uscdoordrink.database.*;
 
-class StoreEntryUnitTest {
+public class StoreEntryUnitTest {
     @Test
     public void conversionTest() {
         StoreEntry testEntry = new StoreEntry("test", "test","test", "test");

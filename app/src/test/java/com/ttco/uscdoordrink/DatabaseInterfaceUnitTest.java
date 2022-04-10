@@ -10,7 +10,7 @@ import com.ttco.uscdoordrink.database.*;
 
 import java.util.Map;
 
-class DatabaseInterfaceUnitTest {
+public class DatabaseInterfaceUnitTest {
     @Test
     public void userCreationTest() {
         Map<String, Object> map = DatabaseInterface.createUsersEntry("test_user", "test_pass", true);

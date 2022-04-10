@@ -49,16 +49,15 @@ public class CurrentOrderEntry {
                 && Objects.equals(order_location, that.order_location);
     }
 
-
-
     public CurrentOrderEntry(String doc_id, Map<String, Object> map){
         this.doc_id = doc_id;
-        this.customer_name = (String)map.get("customer_username");
-        this.drink = (String)map.get("drink");
-        this.startTime = (String)map.get("start_time");
-        this.seller_name = (String)map.get("seller_username");
-        this.restaurant_name = (String)map.get("restaurant_name");
-        this.order_location = (String)map.get("order_location");
+        this.customer_name = (String)map.get(FIELD_CUSTOMER_NAME);
+        this.drink = (String)map.get(FIELD_DRINK_NAME);
+        this.startTime = (String)map.get(FIELD_START_TIME);
+        this.seller_name = (String)map.get(FIELD_SELLER_NAME);
+        this.restaurant_name = (String)map.get(FIELD_RESTAURANT_NAME);
+        this.order_location = (String)map.get(FIELD_ORDER_LOCATION);
+        this.isCaffeinated = (Boolean)map.get(FIELD_IS_CAFFEINATED);
     }
 
     public Map<String, Object> toMap(){
