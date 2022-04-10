@@ -45,6 +45,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
     // Fetches from the database and refreshes order list
     public void refresh(View view) {
         ArrayList<CurrentOrderEntry> values;
+        System.out.println("Logged in username: " + LoginActivity.user.name);
         DatabaseInterface.getCurrentOrders(LoginActivity.user.name, new UpdateListListener());
     }
 
@@ -58,6 +59,9 @@ public class SellerOrdersActivity extends AppCompatActivity {
     class UpdateListListener implements StoreOrderListener {
         public void onComplete(ArrayList<CurrentOrderEntry> orders){
             CurrentOrderEntry[] arr = new CurrentOrderEntry[orders.size()];
+            for(int i = 0; i < arr.length; i++){
+                System.out.println("Order: " + arr[i].doc_id);
+            }
             final ArrayAdapter<CurrentOrderEntry> adapter =
                     new SellerOrdersAdapter(getApplicationContext(), orders.toArray(arr));
             listview.setAdapter(adapter);
