@@ -179,6 +179,8 @@ public class MapsActivity extends FragmentActivity implements
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
+
+
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -388,7 +390,7 @@ public class MapsActivity extends FragmentActivity implements
                 }
 
                 for(DirectionsRoute route: result.routes){
-                    Log.d(TAG, "run: leg: " + route.legs[0].toString());
+                    Log.d(TAG,  "run: leg: " + route.legs[0].toString());
                     List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
                     List<LatLng> newDecodedPath = new ArrayList<>();
