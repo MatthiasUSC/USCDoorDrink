@@ -173,7 +173,7 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void getLocationPermission() {
+    private boolean getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,
@@ -185,10 +185,12 @@ public class MapsActivity extends FragmentActivity implements
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
+            return true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            return false;
         }
     }
 
@@ -202,14 +204,15 @@ public class MapsActivity extends FragmentActivity implements
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    locationPermissionGranted = true;
-                }
+        if (requestCode
+                == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
             }
+        } else {
+            // TODO: Si no sirve borrar el else
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         updateLocationUI();
     }
@@ -426,5 +429,13 @@ public class MapsActivity extends FragmentActivity implements
             Intent intent = new Intent(this, StoreMenuActivity.class);
             startActivity(intent);
         }
+    }
+
+    public TravelMode getCurrentTravelMode(){
+        return this.currentTravelMode;
+    }
+
+    public void setLastKnownLocation(Location newLocation){
+        this.lastKnownLocation = newLocation;
     }
 }
