@@ -48,7 +48,7 @@ public class OrderDetails extends AppCompatActivity {
     int cycle;
 
     public void toMap(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
@@ -259,13 +259,7 @@ public class OrderDetails extends AppCompatActivity {
 
     // This function is assuming all the orders are within the same day
     public void checkForOverdose(List<OrderHistoryEntry> dayOrders){
-        int caffeinatedDrinks = 0;
-        for(OrderHistoryEntry order : dayOrders) {
-            if(order.isCaffeinated){
-                caffeinatedDrinks += 1;
-            }
-        }
-        if(caffeinatedDrinks > 5){
+        if(isOverdoseHistory(dayOrders)){
             String quote = "Quote from USDA “Currently, strong evidence shows that consumption of coffee within the " +
             "moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) is not associated with " +
             "increased long-term health risks among healthy individuals.” You have drank more than 5 caffeinated drinks today.";
@@ -284,5 +278,15 @@ public class OrderDetails extends AppCompatActivity {
             int notificationId = 1;
             notificationManager.notify(notificationId, builder.build());
         }
+    }
+
+    public static boolean isOverdoseHistory(List<OrderHistoryEntry> dayOrders){
+        int caffeinatedDrinks = 0;
+        for(OrderHistoryEntry order : dayOrders) {
+            if(order.isCaffeinated){
+                caffeinatedDrinks += 1;
+            }
+        }
+        return caffeinatedDrinks > 5;
     }
 }

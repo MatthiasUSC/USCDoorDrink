@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.database.*;
-import android.widget.RadioButton;
 
 
 import com.ttco.uscdoordrink.database.DatabaseInterface;
@@ -63,19 +61,19 @@ public class LoginActivity extends AppCompatActivity {
     public void Loggingin(View view){
         String Fullname = lusername.getText().toString();
         String Password = lpassword.getText().toString();
-//        System.out.println("The fullname is: " + Fullname);
-//        System.out.println("The password is: " + Password);
+        //System.out.println("The fullname is: " + Fullname);
+        //System.out.println("The password is: " + Password);
         //Put api firebase
         DatabaseInterface.getLoginResult(Fullname, Password, new LoginEvent(Fullname, this));
-
     }
+    
     public void RegisterPage(View view){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     public void trans(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 

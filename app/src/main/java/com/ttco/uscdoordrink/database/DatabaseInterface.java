@@ -133,7 +133,7 @@ public class DatabaseInterface {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("current_orders")
-                .whereEqualTo("seller_username", seller_username)
+                .whereEqualTo(CurrentOrderEntry.FIELD_SELLER_NAME, seller_username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -144,6 +144,7 @@ public class DatabaseInterface {
                             Map<String, Object> data = document.getData();
                             orders.add(new CurrentOrderEntry(document.getId(), data));
                         }
+                        System.out.println("Orders fetched successfully");
                         listener.onComplete(orders);
                     } else {
                         listener.onComplete(null);
@@ -200,7 +201,7 @@ public class DatabaseInterface {
     // Adds a order history entry to the current_orders collection
     public static void addCurrentOrder(CurrentOrderEntry current_order){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("current_orders").add(current_order.toHashMap());
+        db.collection("current_orders").add(current_order.toMap());
     }
 
     // Adds a order history entry to the order_histories collection
