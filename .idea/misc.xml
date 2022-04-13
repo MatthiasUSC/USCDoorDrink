@@ -10,10 +10,12 @@
         <entry key="..\:/Users/matth/USCDoorDrink/app/src/main/res/layout/activity_store_editor.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3675643920898438" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_order_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_seller_orders.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/layout/activity_store_editor.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/layout/activity_store_info.xml" value="0.17135416666666667" />
+        <entry key="app/src/main/res/layout/activity_store_menu.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/seller_order_element.xml" value="0.17135416666666667" />
       </map>
     </option>
