@@ -1,18 +1,24 @@
 package com.ttco.uscdoordrink;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.MenuEntry;
 import com.ttco.uscdoordrink.database.StoreEntry;
+
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,6 +30,15 @@ public class StoreEditor extends AppCompatActivity {
     ArrayList<String> display;
     EditText storeName;
     EditText storeLocation;
+
+    /*
+    // Bounds set to USC Free Lyft Area
+    private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
+            new LatLng(34.010800, -118.300184),
+            new LatLng(34.031006, -118.264796)
+    );
+    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +46,11 @@ public class StoreEditor extends AppCompatActivity {
         newMenu = new ArrayList<MenuEntry>();
         display = new ArrayList<String>();
         menu = (ListView) findViewById(R.id.menu);
+        storeName = (EditText) findViewById(R.id.storeName);
+        storeLocation = (EditText) findViewById(R.id.storeLocation);
 
 
     }
-
 
     public void addItem(View view){
         EditText ItemName = (EditText) findViewById(R.id.ItemName);
@@ -76,8 +92,7 @@ public class StoreEditor extends AppCompatActivity {
     }
 
     public void submit(View view) {
-        EditText storeName = (EditText) findViewById(R.id.storeName);
-        EditText storeLocation = (EditText) findViewById(R.id.storeLocation);
+
         String name = storeName.getText().toString();
         String location = storeName.getText().toString();
         StoreEntry store = new StoreEntry("0", name, location, LoginActivity.user.name);
@@ -87,4 +102,5 @@ public class StoreEditor extends AppCompatActivity {
         DatabaseInterface.addStore(store);
 
     }
+
 }

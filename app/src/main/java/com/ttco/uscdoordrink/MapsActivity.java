@@ -1,8 +1,6 @@
 package com.ttco.uscdoordrink;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,17 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -51,12 +42,10 @@ import com.google.maps.model.TravelMode;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.StoreEntry;
 import com.ttco.uscdoordrink.database.StoreListener;
-import com.ttco.uscdoordrink.database.UserProfile;
-import com.ttco.uscdoordrink.database.UserProfileListener;
 import com.ttco.uscdoordrink.databinding.ActivityMapsBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import com.google.android.gms.maps.model.Polyline;
 
@@ -90,6 +79,8 @@ public class MapsActivity extends FragmentActivity implements
     private TravelMode currentTravelMode = TravelMode.DRIVING;
     public static Marker lastClickedMarker = null;
 
+    public HashMap<String, Marker> markers;
+
     private class StoreFetch implements StoreListener {
         @Override
         public void onComplete(List<StoreEntry> stores) {
@@ -97,21 +88,28 @@ public class MapsActivity extends FragmentActivity implements
             This is were the stores are fetched and added to a list
              */
 
+            markers = new HashMap<>();
+
             // TODO: Change to actual coord of stores
             double lat = 34.019709;
             double lng = -118.291449;
             int i = 0;
             System.out.println("\n\n\n+++++++++++\n" + stores.toString() + "\n\n\n+++++++++++\n");
+
+            Marker marker;
             for(StoreEntry store : stores){
                 System.out.println("\n\n\n+++++++++++\n" + store.toString() + "\n\n\n+++++++++++\n");
                 LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
-                map.addMarker(new MarkerOptions()
+                marker = map.addMarker(new MarkerOptions()
                         .position(pos)
-                        .title(store.storeName))
-                        .setTag(store);
+                        .title(store.storeName));
+
+                marker.setTag(store);
+
+                markers.put(store.storeName, marker);
+
                 i++;
             }
-
         }
     }
 
@@ -133,19 +131,45 @@ public class MapsActivity extends FragmentActivity implements
          */
         setContentView(R.layout.activity_maps);
 
-        // Construct a FusedLocationProviderClient.
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        genFusionLocationProviderClient();
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        setUpMapReadyNotification();
+
+        buildGeoApiContext();
+    }
+
+    /**
+     * Construct a FusedLocationProviderClient.
+     */
+    public FusedLocationProviderClient genFusionLocationProviderClient(){
+
+        this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        return this.fusedLocationProviderClient;
+
+    }
+
+    /**
+     * Obtain the SupportMapFragment and get notified when the map is ready to be used.
+     */
+    public void setUpMapReadyNotification(){
+        // Obtain the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        // Setup map ready notification
         mapFragment.getMapAsync(this);
+    }
 
+    /**
+     * Build a GeoApiContext Manager given the Google Maps API Key stored
+     * @return
+     */
+    public GeoApiContext buildGeoApiContext(){
         if(mGeoApiContext == null){
             mGeoApiContext = new GeoApiContext.Builder()
                     .apiKey(getString(R.string.google_maps_api_key))
                     .build();
         }
+        return mGeoApiContext;
     }
 
     /**
@@ -210,9 +234,6 @@ public class MapsActivity extends FragmentActivity implements
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 locationPermissionGranted = true;
             }
-        } else {
-            // TODO: Si no sirve borrar el else
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         updateLocationUI();
     }

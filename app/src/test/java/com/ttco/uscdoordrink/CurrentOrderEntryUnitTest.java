@@ -16,4 +16,9 @@ public class CurrentOrderEntryUnitTest {
                 "test", "test", true);
         assertEquals(testEntry, new CurrentOrderEntry("test", testEntry.toMap()));
     }
+
+    @Test
+    public void equalsTest(){
+
+    }
 }
