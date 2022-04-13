@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class LoginTest {
+public class LoginErrorTest {
 
     @Rule
     public ActivityScenarioRule<LoginActivity> rule = new ActivityScenarioRule<LoginActivity>(LoginActivity.class);
@@ -36,21 +36,18 @@ public class LoginTest {
     public final long SERVER_WAIT_TIME_MILLIS = 5000;
 
     @Test
-    public void loginSuccess() {
+    public void loginFail() {
         // Enter dummy user info
-        onView(withId(R.id.name)).perform(typeText("hello"));
-        onView(withId(R.id.password)).perform(typeText("world"));
-
-        // Close keyboard
-        onView(isRoot()).perform(closeSoftKeyboard());
+        onView(withId(R.id.name)).perform(typeText("sadggffdsg"));
+        onView(withId(R.id.password)).perform(typeText("sadggffdsg"));
 
         // Login
-        onView(withId(R.id.login)).perform(click());
+        onView(withId(R.id.login)).perform();
 
         // Wait for response
         SystemClock.sleep(SERVER_WAIT_TIME_MILLIS);
 
-        // Check for success
-        onView(withId(R.id.map)).check(matches(isDisplayed())); // Check if map is displayed
+        // Check for fail
+        onView(withId(R.id.map)).check(doesNotExist()); // Check if map does not exist
     }
 }

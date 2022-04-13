@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class LoginTest {
+public class SellerOrdersReachabilityTest {
 
     @Rule
     public ActivityScenarioRule<LoginActivity> rule = new ActivityScenarioRule<LoginActivity>(LoginActivity.class);
@@ -36,14 +36,13 @@ public class LoginTest {
     public final long SERVER_WAIT_TIME_MILLIS = 5000;
 
     @Test
-    public void loginSuccess() {
+    public void reachabilityTest() {
         // Enter dummy user info
-        onView(withId(R.id.name)).perform(typeText("hello"));
-        onView(withId(R.id.password)).perform(typeText("world"));
+        onView(withId(R.id.name)).perform(typeText("test"));
+        onView(withId(R.id.password)).perform(typeText("seller"));
 
         // Close keyboard
         onView(isRoot()).perform(closeSoftKeyboard());
-
         // Login
         onView(withId(R.id.login)).perform(click());
 
@@ -52,5 +51,11 @@ public class LoginTest {
 
         // Check for success
         onView(withId(R.id.map)).check(matches(isDisplayed())); // Check if map is displayed
+
+        // Go to seller orders
+        onView(withId(R.id.seller_orders)).perform(click());
+
+        // Check if arrived
+        onView(withId(R.id.order_list)).check(matches(isDisplayed()));
     }
 }
