@@ -1,6 +1,8 @@
-package com.ttco.uscdoordrink.database;
+package com.ttco.uscdoordrink;
 
 import static org.junit.Assert.*;
+
+import com.ttco.uscdoordrink.database.UserProfile;
 
 import org.junit.Test;
 
