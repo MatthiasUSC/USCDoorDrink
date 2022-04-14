@@ -7,6 +7,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -14,15 +15,20 @@ import static com.google.maps.android.Context.getApplicationContext;
 import static org.hamcrest.Matchers.allOf;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
+
+import com.google.android.gms.maps.model.Marker;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -31,6 +37,8 @@ import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Map;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -81,6 +89,10 @@ public class MapActivityTest {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        Marker marker = (getCurrentActivity()).markers.get("hello");
+
+        Log.d("MapsActivity in Test", "marker: " + marker.getTag());
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.button4), withText("Walking"),
@@ -139,5 +151,16 @@ public class MapActivityTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+
+    private MapsActivity getCurrentActivity() {
+        final MapsActivity[] activity = new MapsActivity[1];
+        onView(isRoot()).check(new ViewAssertion() {
+            @Override
+            public void check(View view, NoMatchingViewException noViewFoundException) {
+                activity[0] = (MapsActivity) view.getContext();
+            }
+        });
+        return activity[0];
     }
 }

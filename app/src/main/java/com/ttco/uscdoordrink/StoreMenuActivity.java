@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -40,7 +41,7 @@ public class StoreMenuActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             Button btn = (Button) view;
-            String drinkName = btn.getText().toString();
+            String drinkName = btn.getText().toString().split("\\s\\(")[0];
 
             MenuEntry selection = null;
 
@@ -50,7 +51,6 @@ public class StoreMenuActivity extends AppCompatActivity {
                     break;
                 }
             }
-
             if(selection == null) return;
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
