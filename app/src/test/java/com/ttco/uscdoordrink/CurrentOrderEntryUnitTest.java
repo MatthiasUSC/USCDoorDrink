@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.ttco.uscdoordrink.database.*;
 
 import java.text.SimpleDateFormat;
@@ -92,6 +93,5 @@ public class CurrentOrderEntryUnitTest {
 
         assertFalse(testEntry1.equals(testEntry2));
     }
-
 
 }

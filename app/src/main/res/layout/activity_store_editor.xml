@@ -37,16 +37,19 @@
         android:layout_marginEnd="15dp"
         android:ems="10"
         android:hint="Store Name" />
-    <EditText
+
+
+    <fragment
         android:id="@+id/storeLocation"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="15dp"
         android:ems="10"
         android:hint="Store Location" />
+
     <EditText
         android:id="@+id/ItemName"
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.ttco.uscdoordrink;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -79,6 +80,9 @@ public class MapsActivity extends FragmentActivity implements
     private TravelMode currentTravelMode = TravelMode.DRIVING;
     public static Marker lastClickedMarker = null;
 
+    public List<StoreEntry> fetchedStores;
+    protected MyApp mMyApp ;
+
     public HashMap<String, Marker> markers;
 
     private class StoreFetch implements StoreListener {
@@ -90,25 +94,23 @@ public class MapsActivity extends FragmentActivity implements
 
             markers = new HashMap<>();
 
-            // TODO: Change to actual coord of stores
-            double lat = 34.019709;
-            double lng = -118.291449;
-            int i = 0;
-            System.out.println("\n\n\n+++++++++++\n" + stores.toString() + "\n\n\n+++++++++++\n");
+            fetchedStores = stores;
 
             Marker marker;
+
             for(StoreEntry store : stores){
-                System.out.println("\n\n\n+++++++++++\n" + store.toString() + "\n\n\n+++++++++++\n");
-                LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
+
+                String coordString = store.storeLocation;
+                double storeLat = Double.parseDouble(coordString.split(",")[0]);
+                double storeLng = Double.parseDouble(coordString.split(",")[1]);
+
+                LatLng pos = new LatLng(storeLat, storeLng);
                 marker = map.addMarker(new MarkerOptions()
                         .position(pos)
                         .title(store.storeName));
 
                 marker.setTag(store);
-
                 markers.put(store.storeName, marker);
-
-                i++;
             }
         }
     }
@@ -119,6 +121,7 @@ public class MapsActivity extends FragmentActivity implements
         // TODO: Hide buttons that do not correspond to user
 
         super.onCreate(savedInstanceState);
+        mMyApp = (MyApp) this .getApplicationContext() ;
 
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -458,5 +461,23 @@ public class MapsActivity extends FragmentActivity implements
 
     public void setLastKnownLocation(Location newLocation){
         this.lastKnownLocation = newLocation;
+    }
+
+    protected void onResume () {
+        super .onResume() ;
+        mMyApp .setCurrentActivity( this ) ;
+    }
+    protected void onPause () {
+        clearReferences() ;
+        super .onPause() ;
+    }
+    protected void onDestroy () {
+        clearReferences() ;
+        super .onDestroy() ;
+    }
+    private void clearReferences () {
+        Activity currActivity = mMyApp .getCurrentActivity() ;
+        if ( this .equals(currActivity))
+            mMyApp .setCurrentActivity( null ) ;
     }
 }

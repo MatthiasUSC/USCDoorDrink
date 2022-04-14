@@ -90,6 +90,9 @@ public class RegisterActivity extends AppCompatActivity {
         //Put api firebase
 
         DatabaseInterface.doesUsernameExist(Fullname, new UserHandler(Fullname, Password, finalType));
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     public void LoginPage(View view){

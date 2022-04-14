@@ -44,7 +44,7 @@ public class OrderDetails extends AppCompatActivity {
     public static int cycle;
     public static ArrayList<String> now;
     public void toMap(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
