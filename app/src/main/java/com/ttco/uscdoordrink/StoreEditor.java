@@ -46,13 +46,6 @@ public class StoreEditor extends AppCompatActivity {
     private static final String TAG = StoreEditor.class.getSimpleName();
     private PlacesClient placesClient;
 
-    /*
-    // Bounds set to USC Free Lyft Area
-    private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
-            new LatLng(34.010800, -118.300184),
-            new LatLng(34.031006, -118.264796)
-    );
-    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

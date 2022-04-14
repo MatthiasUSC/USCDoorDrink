@@ -81,7 +81,6 @@ public class MapsActivity extends FragmentActivity implements
     public static Marker lastClickedMarker = null;
 
     public List<StoreEntry> fetchedStores;
-    protected MyApp mMyApp ;
 
     public HashMap<String, Marker> markers;
 
@@ -121,7 +120,6 @@ public class MapsActivity extends FragmentActivity implements
         // TODO: Hide buttons that do not correspond to user
 
         super.onCreate(savedInstanceState);
-        mMyApp = (MyApp) this .getApplicationContext() ;
 
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -463,21 +461,4 @@ public class MapsActivity extends FragmentActivity implements
         this.lastKnownLocation = newLocation;
     }
 
-    protected void onResume () {
-        super .onResume() ;
-        mMyApp .setCurrentActivity( this ) ;
-    }
-    protected void onPause () {
-        clearReferences() ;
-        super .onPause() ;
-    }
-    protected void onDestroy () {
-        clearReferences() ;
-        super .onDestroy() ;
-    }
-    private void clearReferences () {
-        Activity currActivity = mMyApp .getCurrentActivity() ;
-        if ( this .equals(currActivity))
-            mMyApp .setCurrentActivity( null ) ;
-    }
 }
