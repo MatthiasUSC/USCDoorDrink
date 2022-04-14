@@ -74,7 +74,7 @@ public class DayOrderHistoryTest {
         materialButton.perform(click());
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -90,7 +90,7 @@ public class DayOrderHistoryTest {
         button.perform(click());
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         }catch(Exception e){
             e.printStackTrace();
         }

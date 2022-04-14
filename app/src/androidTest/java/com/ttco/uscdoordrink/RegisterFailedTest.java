@@ -127,6 +127,12 @@ public class RegisterFailedTest {
                         isDisplayed()));
         materialButton3.perform(click());
 
+        try {
+            Thread.sleep(3000);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         ViewInteraction button = onView(
                 allOf(withId(R.id.button9), withText("Order History (If customer)"),
                         childAtPosition(
@@ -137,12 +143,18 @@ public class RegisterFailedTest {
                         isDisplayed()));
         button.perform(click());
 
+        try {
+            Thread.sleep(3000);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         ViewInteraction textView = onView(
                 allOf(withId(android.R.id.text1), withText("Drink: water\nRestaurant: bob2\nTime ordered: 15/04/2022 20:15:59\nPlace enjoyed beverage: here\nTime order received: 15/04/2022 20:15:59"),
                         withParent(allOf(withId(R.id.orderChart),
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
                         isDisplayed()));
-        textView.check(matches(withText("Drink: water Restaurant: bob2 Time ordered: 15/04/2022 20:15:59 Place enjoyed beverage: here Time order received: 15/04/2022 20:15:59")));
+        textView.check(matches(withText("Drink: water\nRestaurant: bob2\nTime ordered: 15/04/2022 20:15:59\nPlace enjoyed beverage: here\nTime order received: 15/04/2022 20:15:59")));
     }
 
     private static Matcher<View> childAtPosition(

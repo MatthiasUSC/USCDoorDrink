@@ -136,6 +136,12 @@ public class HaveRegistered {
                         isDisplayed()));
         materialButton3.perform(click());
 
+        try {
+            Thread.sleep(3000);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         ViewInteraction button = onView(
                 allOf(withId(R.id.button3), withText("DRIVING"),
                         withParent(withParent(withId(android.R.id.content))),
