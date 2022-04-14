@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StoreEditor">
+
+    <ListView
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="364dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="-353dp" />
+
+    <Button
+        android:id="@+id/submitStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="submit"
+        android:text="Submit" />
+
+    <EditText
+        android:id="@+id/storeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="15dp"
+        android:ems="10"
+        android:hint="Store Name" />
+
+
+    <fragment
+        android:id="@+id/storeLocation"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="15dp"
+        android:ems="10"
+        android:hint="Store Location" />
+
+    <EditText
+        android:id="@+id/ItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="15dp"
+        android:ems="10"
+        android:hint="Menu Item" />
+    <EditText
+        android:id="@+id/ItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="15dp"
+        android:ems="10"
+        android:hint="Item Price" />
+    <EditText
+        android:id="@+id/ItemDiscount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="15dp"
+        android:ems="10"
+        android:hint="Discount" />
+
+    <Button
+        android:id="@+id/additem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="315dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="addItem"
+        android:text="Add Item" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="290dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="250dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <RadioButton
+            android:id="@+id/Yes"
+            android:layout_width="130dp"
+            android:layout_height="33dp"
+            android:onClick="caffiene"
+            android:text="Caffienated"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/No"
+            android:layout_width="150dp"
+            android:layout_height="33dp"
+            android:onClick="caffiene"
+            android:text="Not Caffeinated"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.655"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </RadioGroup>
+
+
+
+
+
+
+</RelativeLayout>
