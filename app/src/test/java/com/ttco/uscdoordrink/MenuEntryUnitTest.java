@@ -19,15 +19,6 @@ public class MenuEntryUnitTest {
         assertEquals(testEntry, new MenuEntry("test", testEntry.toMap()));
     }
 
-    public MenuEntry(String id, String drinkName, Boolean isCaffeinated, String price, String discount, String ownerUsername) {
-        this.id = id;
-        this.drinkName = drinkName;
-        this.isCaffeinated = isCaffeinated;
-        this.price = price;
-        this.discount = discount;
-        this.ownerUsername = ownerUsername;
-    }
-
     @Test
     public void equalsSameInstanceTest(){
         MenuEntry testEntry = new MenuEntry("123", "tea",
@@ -38,24 +29,16 @@ public class MenuEntryUnitTest {
 
     @Test
     public void equalsNullObjectTest(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date startDate = new Date();
-
-        CurrentOrderEntry testEntry = new CurrentOrderEntry("123", "pepe",
-                "tea", formatter.format(startDate), "cesar",
-                "coolders", "california", true);
+        MenuEntry testEntry = new MenuEntry("123", "tea",
+                true, "$2", "", "pepe");
 
         assertFalse(testEntry.equals(null));
     }
 
     @Test
     public void equalsDifferentClassTest(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date startDate = new Date();
-
-        CurrentOrderEntry testEntry = new CurrentOrderEntry("123", "pepe",
-                "tea", formatter.format(startDate), "cesar",
-                "coolders", "california", true);
+        MenuEntry testEntry = new MenuEntry("123", "tea",
+                true, "$2", "", "pepe");
 
 
         OrderHistoryEntry diffClassEntry = new OrderHistoryEntry("456", testEntry.toMap());
@@ -65,16 +48,11 @@ public class MenuEntryUnitTest {
 
     @Test
     public void equalsSameEntryDiffObjectTest(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date startDate = new Date();
+        MenuEntry testEntry1 = new MenuEntry("123", "tea",
+                true, "$2", "", "pepe");
 
-        CurrentOrderEntry testEntry1 = new CurrentOrderEntry("123", "pepe",
-                "tea", formatter.format(startDate), "cesar",
-                "coolders", "california", true);
-
-        CurrentOrderEntry testEntry2 = new CurrentOrderEntry("123", "pepe",
-                "tea", formatter.format(startDate), "cesar",
-                "coolders", "california", true);
+        MenuEntry testEntry2 = new MenuEntry("123", "tea",
+                true, "$2", "", "pepe");
 
 
         assertTrue(testEntry1.equals(testEntry2));
@@ -82,16 +60,11 @@ public class MenuEntryUnitTest {
 
     @Test
     public void equalsDiffEntryTest(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date startDate = new Date();
+        MenuEntry testEntry1 = new MenuEntry("123", "water",
+                true, "$2", "", "pepe");
 
-        CurrentOrderEntry testEntry1 = new CurrentOrderEntry("123", "pepe",
-                "tea", formatter.format(startDate), "cesar",
-                "coolders", "california", true);
-
-        CurrentOrderEntry testEntry2 = new CurrentOrderEntry("123", "pepe",
-                "tea", formatter.format(startDate), "cesar",
-                "coolders", "california", false);
+        MenuEntry testEntry2 = new MenuEntry("123", "tea",
+                true, "$2", "", "pepe");
 
 
         assertFalse(testEntry1.equals(testEntry2));

@@ -111,13 +111,7 @@ public class MapActivityTest {
         }
 
         ViewInteraction button2 = onView(
-                allOf(withText("chocolate (Decaffeinated) $2"),
-                        childAtPosition(
-                                allOf(withId(R.id.store_menu),
-                                        childAtPosition(
-                                                withId(R.id.scroll_layout),
-                                                0)),
-                                3)));
+                allOf(withText("chocolate (Decaffeinated) $2"), isDisplayed()));
         button2.perform(scrollTo(), click());
 
         try {
