@@ -30,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
             this.password = pass;
             this.type = type;
         }
+
         public void onComplete(Boolean doesUsernameExist) {
             if(doesUsernameExist == null){
                 //say try again
@@ -39,6 +40,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
             else{
                 System.out.println("Adding in information");
+                if(type == null){
+                    type = false;
+                }
+
                 DatabaseInterface.addUserProfile(fullname, password, type);
             }
         }
