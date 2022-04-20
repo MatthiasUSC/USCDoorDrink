@@ -13,6 +13,12 @@ import java.util.Date;
 
 //TODO make query faster by not searching each
 public class DatabaseInterface {
+    public static final String COLLECTION_USERS = "users";
+    public static final String COLLECTION_CURRENT_ORDERS = "current_orders";
+    public static final String COLLECTION_ORDER_HISTORIES = "order_histories";
+    public static final String COLLECTION_STORES = "stores";
+    public static final String COLLECTION_MENU_ITEMS = "menu_items";
+    
     public static final String USERNAME_KEY = "username";
     public static final String PASSWORD_KEY = "password";
     public static final String IS_SELLER_KEY = "is_seller";
@@ -21,6 +27,7 @@ public class DatabaseInterface {
         return null;
     }
 
+    // TODO replace string constants with variable constants in OrderHistoryEntry
     public static Map<String, Object> createOrderHistoryEntryFromCurrentOrderEntry(CurrentOrderEntry order){
         Map<String, Object> complete_order = new HashMap<>();
         complete_order.put("seller_username", order.seller_name);
@@ -50,7 +57,7 @@ public class DatabaseInterface {
     public static void doesUsernameExist(String targetUsername, UsernameExistenceListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users")
+        db.collection(COLLECTION_USERS)
         .get()
         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -76,7 +83,7 @@ public class DatabaseInterface {
     public static void getUserProfile(String targetUsername, UserProfileListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users")
+        db.collection(COLLECTION_USERS)
         .get()
         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -103,12 +110,12 @@ public class DatabaseInterface {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> user = createUsersEntry(username, password, isSeller);
-        db.collection("users").add(user);
+        db.collection(COLLECTION_USERS).add(user);
     }
 
     public static void getLoginResult(String username, String password, LoginResultListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        db.collection(COLLECTION_USERS)
             .whereEqualTo(USERNAME_KEY, username)
             .whereEqualTo(PASSWORD_KEY, password)
             .get()
@@ -132,7 +139,7 @@ public class DatabaseInterface {
     public static void getCurrentOrders(String seller_username, StoreOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("current_orders")
+        db.collection(COLLECTION_CURRENT_ORDERS)
                 .whereEqualTo(CurrentOrderEntry.FIELD_SELLER_NAME, seller_username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -157,7 +164,7 @@ public class DatabaseInterface {
     public static void getCustomerOrderHistory(String customer_username, CustomerOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("order_histories")
+        db.collection(COLLECTION_ORDER_HISTORIES)
                 .whereEqualTo(OrderHistoryEntry.FIELD_CUSTOMER_NAME, customer_username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -180,7 +187,7 @@ public class DatabaseInterface {
     // Removes store order from current_orders and puts it in order history for customer
     public static void completeStoreOrder(CurrentOrderEntry order, CompleteOrderListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("current_orders")
+        db.collection(COLLECTION_CURRENT_ORDERS)
                 .document(order.doc_id)
                 .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -201,32 +208,32 @@ public class DatabaseInterface {
     // Adds a order history entry to the current_orders collection
     public static void addCurrentOrder(CurrentOrderEntry current_order){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("current_orders").add(current_order.toMap());
+        db.collection(COLLECTION_CURRENT_ORDERS).add(current_order.toMap());
     }
 
     // Adds a order history entry to the order_histories collection
     public static void addOrderHistory(Map<String, Object> complete_order){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("order_histories").add(complete_order);
+        db.collection(COLLECTION_ORDER_HISTORIES).add(complete_order);
     }
 
     // Adds a store entry to the store collection
     public static void addStore(StoreEntry store){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("stores").add(store.toMap());
+        db.collection(COLLECTION_STORES).add(store.toMap());
     }
 
     // Adds a menu entry to the menu_items collection
     public static void addMenuItem(MenuEntry menuItem){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("menu_items").add(menuItem.toMap());
+        db.collection(COLLECTION_MENU_ITEMS).add(menuItem.toMap());
     }
 
     //Gets all menu entries linked to a specific seller
     public static void getMenuItems(String seller_name, MenuListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("menu_items")
+        db.collection(COLLECTION_MENU_ITEMS)
                 .whereEqualTo(MenuEntry.FIELD_OWNER_USERNAME, seller_name)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -250,7 +257,7 @@ public class DatabaseInterface {
     public static void getStores(StoreListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("stores")
+        db.collection(COLLECTION_STORES)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -264,6 +271,48 @@ public class DatabaseInterface {
                             listener.onComplete(stores);
                         } else {
                             listener.onComplete(null);
+                        }
+                    }
+                });
+    }
+
+    // Update username field (NOT SAFE, MUST CHECK IF NEW USERNAME EXISTS FIRST)
+    public static void updateUsername(String username, String new_username){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(COLLECTION_USERS)
+                .whereEqualTo(UserProfile.FIELD_USERNAME, username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(COLLECTION_USERS)
+                                        .document(document.getId())
+                                        .update(UserProfile.FIELD_USERNAME, new_username);
+                                break;
+                            }
+                        }
+                    }
+                });
+    }
+
+    // Update password field
+    public static void updatePassword(String username, String new_password){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(COLLECTION_USERS)
+                .whereEqualTo(UserProfile.FIELD_USERNAME, username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(COLLECTION_USERS)
+                                        .document(document.getId())
+                                        .update(UserProfile.FIELD_PASSWORD, new_password);
+                                break;
+                            }
                         }
                     }
                 });
