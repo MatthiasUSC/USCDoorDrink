@@ -137,6 +137,20 @@ public class MapsActivity extends FragmentActivity implements
         setUpMapReadyNotification();
 
         buildGeoApiContext();
+
+
+        // Hiding buttons based on user type
+        if(LoginActivity.user.type == true){ // If seller
+            View order_history_button = findViewById(R.id.button9);
+            order_history_button.setVisibility(View.GONE);
+
+        } else { // If customer
+            View seller_orders_button = findViewById(R.id.seller_orders);
+            seller_orders_button.setVisibility(View.GONE);
+
+            View store_editor_button = findViewById(R.id.button10);
+            store_editor_button.setVisibility(View.GONE);
+        }
     }
 
     /**
