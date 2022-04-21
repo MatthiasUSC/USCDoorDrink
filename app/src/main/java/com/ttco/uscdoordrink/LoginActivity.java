@@ -11,6 +11,7 @@ import android.database.*;
 import android.widget.RadioButton;
 
 
+import com.google.firestore.v1.StructuredQuery;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.LoginResultListener;
 import com.ttco.uscdoordrink.database.UserProfile;
@@ -28,12 +29,15 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onComplete(UserProfile userProfile) {
             if (userProfile == null) {
-
+                System.out.println("Failed happening");
             } else {
+                System.out.println("Reached logging in");
                 user = new User(userProfile.username, userProfile.password, userProfile.isSeller);
                 System.out.println("Reached point of logging in");
                 Intent intent = new Intent(context, MapsActivity.class);
+                OrderDetails.notTest = true;
                 startActivity(intent);
+
 
             }
         }
@@ -57,8 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        System.out.println("Hello world");
         lusername = (EditText) findViewById(R.id.name);
         lpassword = (EditText) findViewById(R.id.password);
+
     }
 
     public void Loggingin(View view){
@@ -67,10 +73,11 @@ public class LoginActivity extends AppCompatActivity {
         //System.out.println("The fullname is: " + Fullname);
         //System.out.println("The password is: " + Password);
         //Put api firebase
+
         DatabaseInterface.getLoginResult(Fullname, Password, new LoginEvent(Fullname, this));
 
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, MapsActivity.class);
+//        startActivity(intent);
 
     }
     public void RegisterPage(View view){
