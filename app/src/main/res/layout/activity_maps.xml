@@ -61,7 +61,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/seller_orders"
         android:layout_width="204dp"
         android:layout_height="55dp"
         android:layout_marginStart="188dp"

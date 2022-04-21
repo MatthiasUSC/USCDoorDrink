@@ -45,6 +45,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
     // Fetches from the database and refreshes order list
     public void refresh(View view) {
         ArrayList<CurrentOrderEntry> values;
+        System.out.println("Logged in username: " + LoginActivity.user.name);
         DatabaseInterface.getCurrentOrders(LoginActivity.user.name, new UpdateListListener());
     }
 

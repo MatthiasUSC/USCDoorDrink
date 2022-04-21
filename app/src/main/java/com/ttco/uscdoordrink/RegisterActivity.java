@@ -12,7 +12,7 @@ import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.OrderHistoryEntry;
 import com.ttco.uscdoordrink.database.UsernameExistenceListener;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     Boolean HasClicked;
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             this.password = pass;
             this.type = type;
         }
+
         public void onComplete(Boolean doesUsernameExist) {
             if(doesUsernameExist == null){
                 //say try again
@@ -39,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 System.out.println("Adding in information");
+                if(type == null){
+                    type = false;
+                }
+
                 DatabaseInterface.addUserProfile(fullname, password, type);
             }
         }
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
         }
     }
+
     public void Registering(View view){
         Fullname = username.getText().toString();
         Password = password.getText().toString();
@@ -89,12 +95,13 @@ public class MainActivity extends AppCompatActivity {
         //Put api firebase
 
         DatabaseInterface.doesUsernameExist(Fullname, new UserHandler(Fullname, Password, finalType));
-    }
-    public void LoginPage(View view){
+
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
-
-
+    public void LoginPage(View view){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 }

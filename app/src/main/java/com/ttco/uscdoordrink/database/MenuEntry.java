@@ -2,6 +2,7 @@ package com.ttco.uscdoordrink.database;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MenuEntry {
     public static final String FIELD_DRINK_NAME = "drink_name";
@@ -24,6 +25,19 @@ public class MenuEntry {
         this.price = price;
         this.discount = discount;
         this.ownerUsername = ownerUsername;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuEntry menuEntry = (MenuEntry) o;
+        return Objects.equals(id, menuEntry.id) && Objects.equals(drinkName, menuEntry.drinkName) && Objects.equals(isCaffeinated, menuEntry.isCaffeinated) && Objects.equals(price, menuEntry.price) && Objects.equals(discount, menuEntry.discount) && Objects.equals(ownerUsername, menuEntry.ownerUsername);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, drinkName, isCaffeinated, price, discount, ownerUsername);
     }
 
     public MenuEntry(String id, Map<String, Object> map){

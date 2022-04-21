@@ -1,8 +1,7 @@
 package com.ttco.uscdoordrink;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,17 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -51,12 +43,10 @@ import com.google.maps.model.TravelMode;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.StoreEntry;
 import com.ttco.uscdoordrink.database.StoreListener;
-import com.ttco.uscdoordrink.database.UserProfile;
-import com.ttco.uscdoordrink.database.UserProfileListener;
 import com.ttco.uscdoordrink.databinding.ActivityMapsBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import com.google.android.gms.maps.model.Polyline;
 
@@ -90,6 +80,10 @@ public class MapsActivity extends FragmentActivity implements
     private TravelMode currentTravelMode = TravelMode.DRIVING;
     public static Marker lastClickedMarker = null;
 
+    public List<StoreEntry> fetchedStores;
+
+    public HashMap<String, Marker> markers;
+
     private class StoreFetch implements StoreListener {
         @Override
         public void onComplete(List<StoreEntry> stores) {
@@ -97,26 +91,33 @@ public class MapsActivity extends FragmentActivity implements
             This is were the stores are fetched and added to a list
              */
 
-            // TODO: Change to actual coord of stores
-            double lat = 34.019709;
-            double lng = -118.291449;
-            int i = 0;
-            System.out.println("\n\n\n+++++++++++\n" + stores.toString() + "\n\n\n+++++++++++\n");
-            for(StoreEntry store : stores){
-                System.out.println("\n\n\n+++++++++++\n" + store.toString() + "\n\n\n+++++++++++\n");
-                LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
-                map.addMarker(new MarkerOptions()
-                        .position(pos)
-                        .title(store.storeName))
-                        .setTag(store);
-                i++;
-            }
+            markers = new HashMap<>();
 
+            fetchedStores = stores;
+
+            Marker marker;
+
+            for(StoreEntry store : stores){
+
+                String coordString = store.storeLocation;
+                double storeLat = Double.parseDouble(coordString.split(",")[0]);
+                double storeLng = Double.parseDouble(coordString.split(",")[1]);
+
+                LatLng pos = new LatLng(storeLat, storeLng);
+                marker = map.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .title(store.storeName));
+
+                marker.setTag(store);
+                markers.put(store.storeName, marker);
+            }
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // TODO: Hide buttons that do not correspond to user
 
         super.onCreate(savedInstanceState);
 
@@ -131,19 +132,59 @@ public class MapsActivity extends FragmentActivity implements
          */
         setContentView(R.layout.activity_maps);
 
-        // Construct a FusedLocationProviderClient.
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        genFusionLocationProviderClient();
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        setUpMapReadyNotification();
+
+        buildGeoApiContext();
+
+
+        // Hiding buttons based on user type
+        if(LoginActivity.user.type == true){ // If seller
+            View order_history_button = findViewById(R.id.button9);
+            order_history_button.setVisibility(View.GONE);
+
+        } else { // If customer
+            View seller_orders_button = findViewById(R.id.seller_orders);
+            seller_orders_button.setVisibility(View.GONE);
+
+            View store_editor_button = findViewById(R.id.button10);
+            store_editor_button.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Construct a FusedLocationProviderClient.
+     */
+    public FusedLocationProviderClient genFusionLocationProviderClient(){
+
+        this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        return this.fusedLocationProviderClient;
+
+    }
+
+    /**
+     * Obtain the SupportMapFragment and get notified when the map is ready to be used.
+     */
+    public void setUpMapReadyNotification(){
+        // Obtain the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        // Setup map ready notification
         mapFragment.getMapAsync(this);
+    }
 
+    /**
+     * Build a GeoApiContext Manager given the Google Maps API Key stored
+     * @return
+     */
+    public GeoApiContext buildGeoApiContext(){
         if(mGeoApiContext == null){
             mGeoApiContext = new GeoApiContext.Builder()
                     .apiKey(getString(R.string.google_maps_api_key))
                     .build();
         }
+        return mGeoApiContext;
     }
 
     /**
@@ -160,57 +201,35 @@ public class MapsActivity extends FragmentActivity implements
         this.map = googleMap;
         this.map.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
 
-        /*
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        */
+        // Request the user permission location.
         getLocationPermission();
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
-
-        // TODO: Populate map from DB
-        /*
-        double lat = 34.019709;
-        double lng = -118.291449;
-
-        for(int i = 0; i < 6; i++){
-            LatLng pos = new LatLng(lat + i*0.001, lng + i*0.002);
-            googleMap.addMarker(new MarkerOptions()
-                    .position(pos)
-                    .title("Store #" + i));
-        }
-        */
-
+        // Fetch stores from DB and populate map
         DatabaseInterface.getStores(new StoreFetch());
 
-
-        /*
-        double lat = lastKnownLocation.getLatitude();
-        double lng = lastKnownLocation.getLongitude();
-        LatLng location = new LatLng(lat, lng);
-        mMap.addMarker(new MarkerOptions().position(location).title("Marker in Joe Momma"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        */
     }
 
-    private void getLocationPermission() {
+    private boolean getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
+
+
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
+            return true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            return false;
         }
     }
 
@@ -224,13 +243,11 @@ public class MapsActivity extends FragmentActivity implements
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    locationPermissionGranted = true;
-                }
+        if (requestCode
+                == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
             }
         }
         updateLocationUI();
@@ -315,15 +332,13 @@ public class MapsActivity extends FragmentActivity implements
             calculateDirections(marker);
         }
 
-        // TODO: Show hidden buttons
+        // TODO: Show open menu hidden button
         return false;
     }
 
     public void onClickTravelModeBtn(View view){
         Button b = (Button)view;
         String buttonText = b.getText().toString();
-
-        // TODO: Highlight last clicked button
 
         if(buttonText.equalsIgnoreCase("Driving")){
             currentTravelMode = TravelMode.DRIVING;
@@ -414,7 +429,7 @@ public class MapsActivity extends FragmentActivity implements
                 }
 
                 for(DirectionsRoute route: result.routes){
-                    Log.d(TAG, "run: leg: " + route.legs[0].toString());
+                    Log.d(TAG,  "run: leg: " + route.legs[0].toString());
                     List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
 
                     List<LatLng> newDecodedPath = new ArrayList<>();
@@ -451,4 +466,13 @@ public class MapsActivity extends FragmentActivity implements
             startActivity(intent);
         }
     }
+
+    public TravelMode getCurrentTravelMode(){
+        return this.currentTravelMode;
+    }
+
+    public void setLastKnownLocation(Location newLocation){
+        this.lastKnownLocation = newLocation;
+    }
+
 }

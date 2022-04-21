@@ -37,7 +37,10 @@ public class OrderDetails extends AppCompatActivity {
     static ArrayList<String> displayedHistoryMonth;
     static ArrayList<String> displayedHistoryYear;
     static ArrayList<String> displayedHistoryDay;
+<<<<<<< HEAD
     static Boolean notTest = false;
+=======
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
     static boolean databaseComplete = false;
     String ReccomendedName;
     ListView history;
@@ -45,7 +48,7 @@ public class OrderDetails extends AppCompatActivity {
     public static int cycle;
     public static ArrayList<String> now;
     public void toMap(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
@@ -210,7 +213,11 @@ public class OrderDetails extends AppCompatActivity {
                 sendRecommendation();
             }
 
+<<<<<<< HEAD
         databaseComplete = true;
+=======
+            databaseComplete = true;
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
 
         }
     }
@@ -227,7 +234,11 @@ public class OrderDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
         createNotificationChannel();
+<<<<<<< HEAD
 
+=======
+        String fullname = LoginActivity.user.name;
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
         System.out.println("The name of the customer: " + fullname);
         cycle = 0;
         ReccomendedName = "";
@@ -273,12 +284,21 @@ public class OrderDetails extends AppCompatActivity {
         NotificationCompat.Builder builder;
         String rec = MakeRec(ReccomendedName);
         builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+<<<<<<< HEAD
                     .setSmallIcon(android.R.drawable.star_on)
                     .setContentTitle("Recommendation")
                     .setContentText(rec)
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .bigText(rec))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+=======
+                .setSmallIcon(android.R.drawable.star_on)
+                .setContentTitle("Recommendation")
+                .setContentText(rec)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(rec))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
@@ -291,8 +311,8 @@ public class OrderDetails extends AppCompatActivity {
     public void checkForOverdose(List<OrderHistoryEntry> dayOrders){
         if(isOverdoseHistory(dayOrders)){
             String quote = "Quote from USDA “Currently, strong evidence shows that consumption of coffee within the " +
-            "moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) is not associated with " +
-            "increased long-term health risks among healthy individuals.” You have drank more than 5 caffeinated drinks today.";
+                    "moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) is not associated with " +
+                    "increased long-term health risks among healthy individuals.” You have drank more than 5 caffeinated drinks today.";
 
             // Send notifcation about too much caffeine
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)

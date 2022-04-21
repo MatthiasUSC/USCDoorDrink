@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.database.*;
-import android.widget.RadioButton;
 
 
 import com.google.firestore.v1.StructuredQuery;
@@ -43,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
         private class LoginEvent implements LoginResultListener {
             String fullname;
             Context context;
@@ -75,18 +72,22 @@ public class LoginActivity extends AppCompatActivity {
         //Put api firebase
 
         DatabaseInterface.getLoginResult(Fullname, Password, new LoginEvent(Fullname, this));
+<<<<<<< HEAD
 
 //        Intent intent = new Intent(this, MapsActivity.class);
 //        startActivity(intent);
 
+=======
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
     }
+    
     public void RegisterPage(View view){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     public void trans(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 

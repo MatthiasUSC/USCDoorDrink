@@ -2,6 +2,7 @@ package com.ttco.uscdoordrink.database;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class StoreEntry {
     public static final String FIELD_STORE_NAME = "store_name";
@@ -18,6 +19,14 @@ public class StoreEntry {
         this.storeName = storeName;
         this.storeLocation = storeLocation;
         this.ownerUsername = ownerUsername;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreEntry that = (StoreEntry) o;
+        return Objects.equals(id, that.id) && Objects.equals(storeName, that.storeName) && Objects.equals(storeLocation, that.storeLocation) && Objects.equals(ownerUsername, that.ownerUsername);
     }
 
     public StoreEntry(String id, Map<String, Object> map){
