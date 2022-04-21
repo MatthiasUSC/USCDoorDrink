@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("Reached logging in");
                 user = new User(userProfile.username, userProfile.password, userProfile.isSeller);
                 System.out.println("Reached point of logging in");
-                Intent intent = new Intent(context, MapsActivity.class);
+                Intent intent = new Intent(context, com.ttco.uscdoordrink.UserProfile.class);
                 OrderDetails.notTest = true;
                 startActivity(intent);
 
