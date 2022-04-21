@@ -61,12 +61,12 @@ public class UserProfile extends AppCompatActivity {
 
     public void ChangePassword(View view) {
         currPassword = newPassword.getText().toString();
-        DatabaseInterface.addUserProfile(currUsername, currPassword, currType);
+        DatabaseInterface.updatePassword(currUsername, currPassword);
     }
 
     public void ChangeUsername(View view) {
-        currUsername = newUsername.getText().toString();
-        LoginActivity.user.name = currUsername;
-        DatabaseInterface.addUserProfile(currUsername, currPassword, currType);
+        String newUsername = username.getText().toString();
+        LoginActivity.user.name = newUsername;
+        DatabaseInterface.updateUsername(currUsername, newUsername);
     }
 }
