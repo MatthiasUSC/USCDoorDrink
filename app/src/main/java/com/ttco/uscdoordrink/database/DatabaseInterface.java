@@ -228,7 +228,7 @@ public class DatabaseInterface {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(COLLECTION_MENU_ITEMS).add(menuItem.toMap());
     }
-    
+
     // Deletes all menu items with seller_name
     public static void clearMenuItems(String seller_name){
 
@@ -236,6 +236,11 @@ public class DatabaseInterface {
 
     // Deletes all stores with seller_name
     public static void deleteStore(String seller_name){
+
+    }
+
+    // Gets store info of a certain seller, returns it in the onComplete function of the listener
+    public static void getStoreOfSeller(String seller_name, SingleStoreListener listener){
 
     }
 
