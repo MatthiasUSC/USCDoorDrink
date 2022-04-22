@@ -241,7 +241,26 @@ public class DatabaseInterface {
 
     // Gets store info of a certain seller, returns it in the onComplete function of the listener
     public static void getStoreOfSeller(String seller_name, SingleStoreListener listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        db.collection(COLLECTION_STORES)
+                .whereEqualTo(StoreEntry.FIELD_OWNER_USERNAME, seller_name)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+                                listener.onComplete(new StoreEntry(document.getId(), data));
+                                return;
+                            }
+                            listener.onComplete(null);
+                        } else {
+                            listener.onComplete(null);
+                        }
+                    }
+                });
     }
 
     //Gets all menu entries linked to a specific seller
