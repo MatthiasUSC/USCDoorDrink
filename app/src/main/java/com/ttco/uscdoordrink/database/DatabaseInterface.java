@@ -228,6 +228,16 @@ public class DatabaseInterface {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(COLLECTION_MENU_ITEMS).add(menuItem.toMap());
     }
+    
+    // Deletes all menu items with seller_name
+    public static void clearMenuItems(String seller_name){
+
+    }
+
+    // Deletes all stores with seller_name
+    public static void deleteStore(String seller_name){
+
+    }
 
     //Gets all menu entries linked to a specific seller
     public static void getMenuItems(String seller_name, MenuListener listener){
