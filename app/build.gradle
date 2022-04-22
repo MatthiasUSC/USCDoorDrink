@@ -14,6 +14,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -47,7 +48,26 @@ dependencies {
     // Add the dependencies for the desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.firebase:firebase-firestore'
+<<<<<<< HEAD
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2') {
+        // Necessary if your app targets Marshmallow (since Espresso
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation('com.android.support.test:runner:0.3') {
+        // Necessary if your app targets Marshmallow (since the test runner
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
+}
+
+dependencies {
+
+    implementation 'androidx.test:rules:1.4.0'
+=======
+
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.google.android.libraries.places:places:2.6.0'
@@ -61,6 +81,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.maps:google-maps-services:2.0.0'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
+<<<<<<< HEAD
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+=======
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
@@ -68,4 +91,5 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     testImplementation "org.mockito:mockito-core:4.4.0"
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
 }

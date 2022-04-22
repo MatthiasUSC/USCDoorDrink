@@ -37,6 +37,10 @@ public class OrderDetails extends AppCompatActivity {
     static ArrayList<String> displayedHistoryMonth;
     static ArrayList<String> displayedHistoryYear;
     static ArrayList<String> displayedHistoryDay;
+<<<<<<< HEAD
+    static Boolean notTest = false;
+=======
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
     static boolean databaseComplete = false;
     String ReccomendedName;
     ListView history;
@@ -209,17 +213,32 @@ public class OrderDetails extends AppCompatActivity {
                 sendRecommendation();
             }
 
+<<<<<<< HEAD
+        databaseComplete = true;
+=======
             databaseComplete = true;
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
 
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String fullname;
+        if(!notTest) {
+            fullname = "hello";
+        }
+        else{
+            fullname = LoginActivity.user.name;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
         createNotificationChannel();
+<<<<<<< HEAD
+
+=======
         String fullname = LoginActivity.user.name;
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
         System.out.println("The name of the customer: " + fullname);
         cycle = 0;
         ReccomendedName = "";
@@ -265,12 +284,21 @@ public class OrderDetails extends AppCompatActivity {
         NotificationCompat.Builder builder;
         String rec = MakeRec(ReccomendedName);
         builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+<<<<<<< HEAD
+                    .setSmallIcon(android.R.drawable.star_on)
+                    .setContentTitle("Recommendation")
+                    .setContentText(rec)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(rec))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+=======
                 .setSmallIcon(android.R.drawable.star_on)
                 .setContentTitle("Recommendation")
                 .setContentText(rec)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(rec))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+>>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
