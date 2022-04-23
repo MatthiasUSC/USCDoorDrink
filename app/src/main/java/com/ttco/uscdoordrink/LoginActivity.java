@@ -33,10 +33,8 @@ public class LoginActivity extends AppCompatActivity {
                 user = new User(userProfile.username, userProfile.password, userProfile.isSeller);
                 System.out.println("Reached point of logging in");
                 Intent intent = new Intent(context, com.ttco.uscdoordrink.UserProfile.class);
-                OrderDetails.notTest = true;
+                //OrderDetails.notTest = true;
                 startActivity(intent);
-
-
             }
         }
     }
@@ -72,13 +70,10 @@ public class LoginActivity extends AppCompatActivity {
         //Put api firebase
 
         DatabaseInterface.getLoginResult(Fullname, Password, new LoginEvent(Fullname, this));
-<<<<<<< HEAD
 
 //        Intent intent = new Intent(this, MapsActivity.class);
 //        startActivity(intent);
 
-=======
->>>>>>> 588d4a2449d77187b68eb3c875aa73745c80b55a
     }
     
     public void RegisterPage(View view){

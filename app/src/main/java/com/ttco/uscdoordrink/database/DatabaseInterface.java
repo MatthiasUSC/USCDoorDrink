@@ -231,7 +231,7 @@ public class DatabaseInterface {
 
     // Deletes all menu items with seller_name
     public static void clearMenuItems(String seller_name){
-        
+
     }
 
     // Deletes all stores with seller_name
