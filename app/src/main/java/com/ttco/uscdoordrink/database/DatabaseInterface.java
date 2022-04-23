@@ -231,12 +231,27 @@ public class DatabaseInterface {
 
     // Deletes all menu items with seller_name
     public static void clearMenuItems(String seller_name){
-
+        
     }
 
     // Deletes all stores with seller_name
     public static void deleteStore(String seller_name){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        db.collection(COLLECTION_STORES)
+                .whereEqualTo(StoreEntry.FIELD_OWNER_USERNAME, seller_name)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+                                db.collection(COLLECTION_STORES).document(document.getId()).delete();
+                            }
+                        }
+                    }
+                });
     }
 
     // Gets store info of a certain seller, returns it in the onComplete function of the listener
