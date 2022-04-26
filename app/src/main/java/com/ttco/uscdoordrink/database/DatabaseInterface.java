@@ -231,7 +231,22 @@ public class DatabaseInterface {
 
     // Deletes all menu items with seller_name
     public static void clearMenuItems(String seller_name){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        db.collection(COLLECTION_MENU_ITEMS)
+                .whereEqualTo(MenuEntry.FIELD_OWNER_USERNAME, seller_name)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+                                db.collection(COLLECTION_MENU_ITEMS).document(document.getId()).delete();
+                            }
+                        }
+                    }
+                });
     }
 
     // Deletes all stores with seller_name
