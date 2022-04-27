@@ -27,6 +27,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.MenuEntry;
+import com.ttco.uscdoordrink.database.SingleStoreListener;
 import com.ttco.uscdoordrink.database.StoreEntry;
 import com.google.android.libraries.places.R.id;
 
@@ -89,6 +90,12 @@ public class StoreEditor extends AppCompatActivity {
             @Override
             public void onError(@NonNull Status status) {
                 Log.i(TAG, "An error occurred: " + status);
+            }
+        });
+        DatabaseInterface.getStoreOfSeller(LoginActivity.user.name, new SingleStoreListener() {
+            @Override
+            public void onComplete(StoreEntry store) {
+
             }
         });
     }
