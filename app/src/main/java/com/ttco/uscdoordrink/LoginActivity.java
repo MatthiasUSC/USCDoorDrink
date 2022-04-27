@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("Reached logging in");
                 user = new User(userProfile.username, userProfile.password, userProfile.isSeller);
                 System.out.println("Reached point of logging in");
-                Intent intent = new Intent(context, com.ttco.uscdoordrink.UserProfile.class);
+                Intent intent = new Intent(context, com.ttco.uscdoordrink.MapsActivity.class);
                 //OrderDetails.notTest = true;
                 startActivity(intent);
             }
@@ -42,10 +42,12 @@ public class LoginActivity extends AppCompatActivity {
         private class LoginEvent implements LoginResultListener {
             String fullname;
             Context context;
+
             LoginEvent(String f, Context c){
                 fullname = f;
                 context = c;
             }
+
             public void onComplete(Boolean isSuccessful) {
                 if(isSuccessful){
                     DatabaseInterface.getUserProfile(fullname, new UserEvent(context));
@@ -65,26 +67,14 @@ public class LoginActivity extends AppCompatActivity {
     public void Loggingin(View view){
         String Fullname = lusername.getText().toString();
         String Password = lpassword.getText().toString();
-        //System.out.println("The fullname is: " + Fullname);
-        //System.out.println("The password is: " + Password);
+
         //Put api firebase
-
         DatabaseInterface.getLoginResult(Fullname, Password, new LoginEvent(Fullname, this));
-
-//        Intent intent = new Intent(this, MapsActivity.class);
-//        startActivity(intent);
-
     }
     
     public void RegisterPage(View view){
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
-    public void trans(){
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
 
 }

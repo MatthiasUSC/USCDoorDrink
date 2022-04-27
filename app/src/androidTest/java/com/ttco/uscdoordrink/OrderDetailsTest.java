@@ -17,9 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.google.firestore.v1.StructuredQuery;
-import com.ttco.uscdoordrink.database.OrderHistoryEntry;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -133,7 +130,7 @@ public class OrderDetailsTest {
         materialButton2.perform(click());
 
         ViewInteraction button = onView(
-                allOf(withId(R.id.button9), withText("Order History (If customer)"),
+                allOf(withId(R.id.order_history_button), withText("Order History (If customer)"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),

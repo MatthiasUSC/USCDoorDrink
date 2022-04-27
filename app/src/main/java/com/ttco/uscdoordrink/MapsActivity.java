@@ -1,7 +1,6 @@
 package com.ttco.uscdoordrink;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -43,7 +42,6 @@ import com.google.maps.model.TravelMode;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.StoreEntry;
 import com.ttco.uscdoordrink.database.StoreListener;
-import com.ttco.uscdoordrink.databinding.ActivityMapsBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,8 +51,6 @@ import com.google.android.gms.maps.model.Polyline;
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener {
-
-    private ActivityMapsBinding binding;
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap map;
@@ -141,14 +137,14 @@ public class MapsActivity extends FragmentActivity implements
 
         // Hiding buttons based on user type
         if(LoginActivity.user.type == true){ // If seller
-            View order_history_button = findViewById(R.id.button9);
+            View order_history_button = findViewById(R.id.order_history_button);
             order_history_button.setVisibility(View.GONE);
 
         } else { // If customer
-            View seller_orders_button = findViewById(R.id.seller_orders);
+            View seller_orders_button = findViewById(R.id.seller_orders_button);
             seller_orders_button.setVisibility(View.GONE);
 
-            View store_editor_button = findViewById(R.id.button10);
+            View store_editor_button = findViewById(R.id.store_editor_button);
             store_editor_button.setVisibility(View.GONE);
         }
     }
@@ -465,6 +461,11 @@ public class MapsActivity extends FragmentActivity implements
             Intent intent = new Intent(this, StoreMenuActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void onClickOpenProfileBtn(View view) {
+        Intent intent = new Intent(this, UserProfile.class);
+        startActivity(intent);
     }
 
     public TravelMode getCurrentTravelMode(){

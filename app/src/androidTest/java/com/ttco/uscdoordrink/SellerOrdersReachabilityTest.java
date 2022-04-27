@@ -5,22 +5,17 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertTrue;
 
-import android.app.Activity;
 import android.os.SystemClock;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,7 +48,7 @@ public class SellerOrdersReachabilityTest {
         onView(withId(R.id.map)).check(matches(isDisplayed())); // Check if map is displayed
 
         // Go to seller orders
-        onView(withId(R.id.seller_orders)).perform(click());
+        onView(withId(R.id.seller_orders_button)).perform(click());
 
         // Check if arrived
         onView(withId(R.id.order_list)).check(matches(isDisplayed()));

@@ -81,7 +81,7 @@ public class OrderHistoryInitializationTest {
         }
 
         ViewInteraction button = onView(
-                allOf(withId(R.id.button9), withText("Order History (If customer)"),
+                allOf(withId(R.id.order_history_button), withText("Order History (If customer)"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
