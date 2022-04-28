@@ -19,7 +19,7 @@ public class UserProfile extends AppCompatActivity {
     TextView password;
     TextView type;
     EditText newPassword;
-    EditText newUsername;
+//    EditText newUsername;
     Boolean currType = false;
     String currPassword = "";
     String currUsername = "";
@@ -30,7 +30,7 @@ public class UserProfile extends AppCompatActivity {
         username = (TextView) findViewById(R.id.username);
         password = (TextView) findViewById(R.id.password);
         newPassword = (EditText) findViewById(R.id.editPassword);
-        newUsername = (EditText) findViewById(R.id.editUsername);
+//        newUsername = (EditText) findViewById(R.id.editUsername);
 
         DatabaseInterface.getUserProfile(LoginActivity.user.name, new UserProfileListener() {
             @Override
@@ -64,9 +64,9 @@ public class UserProfile extends AppCompatActivity {
         DatabaseInterface.updatePassword(currUsername, currPassword);
     }
 
-    public void ChangeUsername(View view) {
-        String newUsername = username.getText().toString();
-        LoginActivity.user.name = newUsername;
-        DatabaseInterface.updateUsername(currUsername, newUsername);
-    }
+//    public void ChangeUsername(View view) {
+//        String newUsername = username.getText().toString();
+//        LoginActivity.user.name = newUsername;
+//        DatabaseInterface.updateUsername(currUsername, newUsername);
+//    }
 }

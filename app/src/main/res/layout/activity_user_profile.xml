@@ -20,17 +20,6 @@
 
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editUsername"
-        android:layout_width="169dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="628dp"
-        android:ems="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/changePassword"
         android:layout_width="wrap_content"
@@ -44,19 +33,6 @@
 
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/changeUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="628dp"
-
-        android:onClick="ChangeUsername"
-        android:text="changeUsername"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.878"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/usernameLabel"
