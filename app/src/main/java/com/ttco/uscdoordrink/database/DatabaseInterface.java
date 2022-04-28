@@ -240,9 +240,11 @@ public class DatabaseInterface {
                     @Override
                     public void onComplete(Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
-                                if(!task.getResult().iterator().hasNext()){ // Puts callback on last async function (I hope that the last one is finished last)
+
+                                if(i == task.getResult().size() - 1){ // Puts callback on last async function (I hope that the last one is finished last)
                                     db.collection(COLLECTION_MENU_ITEMS).document(document.getId()).delete()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -255,6 +257,8 @@ public class DatabaseInterface {
                                 } else {
                                     db.collection(COLLECTION_MENU_ITEMS).document(document.getId()).delete();
                                 }
+
+                                i++;
                             }
                         }
                     }

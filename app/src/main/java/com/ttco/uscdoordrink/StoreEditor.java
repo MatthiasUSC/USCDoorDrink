@@ -114,8 +114,6 @@ public class StoreEditor extends AppCompatActivity {
 
 //                String ownerUsername = store.ownerUsername;
                 //System.out.println("reached on complete");
-                System.out.println("This is the store name: " + store.storeName);
-
                 if(store != null) {
                     storeName_now = store.storeName;
                     storeLocation_now = store.storeLocation;
