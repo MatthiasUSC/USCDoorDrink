@@ -36,6 +36,7 @@ public class DatabaseInterface {
         complete_order.put("start_time", order.startTime);
         complete_order.put("restaurant_name", order.restaurant_name);
         complete_order.put("order_location", order.order_location);
+        complete_order.put("is_caffeinated", order.isCaffeinated)
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         complete_order.put("end_time", formatter.format(date));
