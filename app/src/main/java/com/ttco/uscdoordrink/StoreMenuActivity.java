@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.Marker;
 import com.ttco.uscdoordrink.database.CurrentOrderEntry;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.MenuEntry;
@@ -33,7 +34,8 @@ import java.util.List;
 public class StoreMenuActivity extends AppCompatActivity {
 
     List<MenuEntry> fullMenuList;
-    StoreEntry store = (StoreEntry) MapsActivity.lastClickedMarker.getTag();
+
+    private StoreEntry store;
     StoreMenuActivity context = this;
 
     View.OnClickListener menuItemClick = new View.OnClickListener() {
@@ -120,7 +122,7 @@ public class StoreMenuActivity extends AppCompatActivity {
 
             TextView itemCaff = new TextView(context);
 
-            String decaf = menuItem.isCaffeinated ? "Decaffeinated" : "Caffeinated";
+            String decaf = menuItem.isCaffeinated ? "Caffeinated" : "Decaffeinated";
             itemCaff.setText(" (" + decaf + ") ");
             itemCaff.setGravity(Gravity.CENTER_VERTICAL);
 
@@ -132,6 +134,8 @@ public class StoreMenuActivity extends AppCompatActivity {
 
             double price = Double.parseDouble(menuItem.price);
             itemPrice.setText("$" + String.format("%.2f", price));
+
+            itemPrice.setTextColor(Color.GREEN);
 
             if(!menuItem.discount.equals("0")){
                 itemPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -184,7 +188,7 @@ public class StoreMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_menu);
 
-        StoreEntry store = (StoreEntry) MapsActivity.lastClickedMarker.getTag();
+        store = (StoreEntry) MapsActivity.lastClickedMarker.getTag();
         getMenuItems(store.ownerUsername, new GetMenuEvent(this));
 
         TextView storeName = findViewById(R.id.store_name);
