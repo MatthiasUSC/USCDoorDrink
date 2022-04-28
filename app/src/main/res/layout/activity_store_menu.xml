@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StoreMenuActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".StoreMenuActivity">
 
     <LinearLayout
         android:id="@+id/top_linear_layout"
@@ -14,7 +15,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/return_button"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,35 +41,48 @@
         <Button
             android:id="@+id/all_menu_filter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="All Menu" />
+            android:text="All Menu"
+            android:onClick="onClickMenuBtn"/>
 
         <Button
             android:id="@+id/discount_menu_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClickDiscountBtn"
             android:text="Discounted" />
+
     </LinearLayout>
 
     <ScrollView
         android:id="@+id/scroll_layout"
         android:layout_width="match_parent"
-        android:layout_height="481dp">
+        android:layout_height="481dp"
+        tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
-            android:id="@+id/store_menu"
+            android:id="@+id/full_store_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
+
+
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/order_instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Press Item to Order" />
+
+    <LinearLayout
+        android:id="@+id/discount_store_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" />
 
 </LinearLayout>

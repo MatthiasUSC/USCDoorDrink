@@ -8,22 +8,16 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.google.maps.android.Context.getApplicationContext;
 import static org.hamcrest.Matchers.allOf;
 
-import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -34,8 +28,6 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiSelector;
 import static org.junit.Assert.assertTrue;
 
-import com.google.android.gms.maps.model.Marker;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -43,8 +35,6 @@ import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Map;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -231,14 +221,14 @@ public class MapActivityTest {
 
         ViewInteraction button2 = onView(
                 allOf(withText("CSCI310 (DECAFFEINATED) $1"),
-                        withParent(allOf(withId(R.id.store_menu),
+                        withParent(allOf(withId(R.id.full_store_menu),
                                 withParent(withId(R.id.scroll_layout)))),
                         isDisplayed()));
         button2.check(matches(isDisplayed()));
 
         ViewInteraction button3 = onView(
                 allOf(withText("CHOCOLATE (DECAFFEINATED) $2"),
-                        withParent(allOf(withId(R.id.store_menu),
+                        withParent(allOf(withId(R.id.full_store_menu),
                                 withParent(withId(R.id.scroll_layout)))),
                         isDisplayed()));
         button3.check(matches(isDisplayed()));
