@@ -202,7 +202,7 @@ public class DatabaseInterface {
         );
 
         // Add completed order to order history.
-        addOrderHistory(order.toMap());
+        addOrderHistory(createOrderHistoryEntryFromCurrentOrderEntry(order));
     }
 
     // Adds a order history entry to the current_orders collection
