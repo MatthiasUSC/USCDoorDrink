@@ -2,9 +2,6 @@ package com.ttco.uscdoordrink;
 
 import static org.junit.Assert.*;
 
-import com.google.firestore.v1.StructuredQuery;
-import com.ttco.uscdoordrink.database.OrderHistoryEntry;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +11,7 @@ import java.util.HashMap;
 
 public class OrderDetailsTest {
     //OrderHistoryEntry ohe;
-    OrderDetails ohe;
+    OrderDetailsActivity ohe;
     @Before
 //    String doc_id, String customer_name, String drink,
 //    String startTime, String seller_name, String restaurant_name,
@@ -28,8 +25,8 @@ public class OrderDetailsTest {
     @Test
     public void getPeriod() {
         System.out.println("hi");
-        OrderDetails.cycle = 1;
-        String testmonth = OrderDetails.GetPeriod();
+        OrderDetailsActivity.cycle = 1;
+        String testmonth = OrderDetailsActivity.GetPeriod();
 
 //        orderDetails.cycle = 1;
 //        String test_month = orderDetails.GetPeriod();
@@ -38,7 +35,7 @@ public class OrderDetailsTest {
 
     @Test
     public void OrderToString(){
-        String res = OrderDetails.OrderToString("coke", "inandout", "never", "nowhere", "3");
+        String res = OrderDetailsActivity.OrderToString("coke", "inandout", "never", "nowhere", "3");
             assertEquals(res, "Drink: " + "coke" + "\n"
                     + "Restaurant: " + "inandout" + "\n" +
                     "Time ordered: " + "never" + "\n" + "Place enjoyed beverage: "
@@ -47,7 +44,7 @@ public class OrderDetailsTest {
     }
     @Test
     public void MakeRecTest(){
-        String test_rec = OrderDetails.MakeRec("Spongebob");
+        String test_rec = OrderDetailsActivity.MakeRec("Spongebob");
         assertEquals(test_rec, "You visited Spongebob the most this month we recommend you visit this place again.");
     }
     @Test
@@ -62,7 +59,7 @@ public class OrderDetailsTest {
         int order_minute = dateTime.getMinute();
         int order_second = dateTime.getSecond();
 
-        HashMap dateAttr = OrderDetails.getDate(dateTime);
+        HashMap dateAttr = OrderDetailsActivity.getDate(dateTime);
         assertEquals(order_month, dateAttr.get("month"));
         assertEquals(order_year, dateAttr.get("year"));
         assertEquals(order_day, dateAttr.get("day"));

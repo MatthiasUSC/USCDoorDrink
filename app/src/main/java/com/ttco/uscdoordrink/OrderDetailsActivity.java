@@ -31,7 +31,7 @@ import android.widget.Button;
 
 
 
-public class OrderDetails extends AppCompatActivity {
+public class OrderDetailsActivity extends AppCompatActivity {
     ArrayList<String> orderHistory;
     ArrayList<OrderHistoryEntry> copy_orders;
     static ArrayList<String> displayedHistoryMonth;

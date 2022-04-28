@@ -2,6 +2,7 @@ package com.ttco.uscdoordrink;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -14,7 +15,7 @@ import com.ttco.uscdoordrink.database.UserProfileListener;
 
 import java.util.Map;
 
-public class UserProfile extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity {
     TextView username;
     TextView password;
     TextView type;
@@ -62,6 +63,17 @@ public class UserProfile extends AppCompatActivity {
     public void ChangePassword(View view) {
         currPassword = newPassword.getText().toString();
         DatabaseInterface.updatePassword(currUsername, currPassword);
+    }
+
+    public void onClickReturnBtn(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickLogOutBtn(View view) {
+        LoginActivity.user = null;
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
 //    public void ChangeUsername(View view) {

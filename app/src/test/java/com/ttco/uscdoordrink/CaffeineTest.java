@@ -14,7 +14,7 @@ public class CaffeineTest {
     @Test
     public void overdoseTest() {
         List<OrderHistoryEntry> dayOrders = new ArrayList<OrderHistoryEntry>();
-        assertFalse(OrderDetails.isOverdoseHistory(dayOrders));
+        assertFalse(OrderDetailsActivity.isOverdoseHistory(dayOrders));
 
         OrderHistoryEntry testObjDecaf = new OrderHistoryEntry("0", "test", "test",
                 "test", "test", "test",
@@ -25,19 +25,19 @@ public class CaffeineTest {
                 "test", true, "test");
 
         dayOrders.add(testObjDecaf);
-        assertFalse(OrderDetails.isOverdoseHistory(dayOrders));
+        assertFalse(OrderDetailsActivity.isOverdoseHistory(dayOrders));
         dayOrders.add(testObjDecaf);
         dayOrders.add(testObjDecaf);
         dayOrders.add(testObjDecaf);
         dayOrders.add(testObjDecaf);
-        assertFalse(OrderDetails.isOverdoseHistory(dayOrders));
+        assertFalse(OrderDetailsActivity.isOverdoseHistory(dayOrders));
         dayOrders.add(testObjCaf);
-        assertFalse(OrderDetails.isOverdoseHistory(dayOrders));
-        dayOrders.add(testObjCaf);
-        dayOrders.add(testObjCaf);
+        assertFalse(OrderDetailsActivity.isOverdoseHistory(dayOrders));
         dayOrders.add(testObjCaf);
         dayOrders.add(testObjCaf);
         dayOrders.add(testObjCaf);
-        assertTrue(OrderDetails.isOverdoseHistory(dayOrders));
+        dayOrders.add(testObjCaf);
+        dayOrders.add(testObjCaf);
+        assertTrue(OrderDetailsActivity.isOverdoseHistory(dayOrders));
     }
 }

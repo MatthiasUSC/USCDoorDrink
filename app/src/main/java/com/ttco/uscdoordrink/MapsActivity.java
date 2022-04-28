@@ -358,7 +358,7 @@ public class MapsActivity extends FragmentActivity implements
 
     public void onClickToOrderHistory(View view){
         if(LoginActivity.user.type == false){ // If not seller
-            Intent intent = new Intent(this.getApplicationContext(), OrderDetails.class);
+            Intent intent = new Intent(this.getApplicationContext(), OrderDetailsActivity.class);
             startActivity(intent);
         }
     }
@@ -464,7 +464,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     public void onClickOpenProfileBtn(View view) {
-        Intent intent = new Intent(this, UserProfile.class);
+        Intent intent = new Intent(this, UserProfileActivity.class);
         startActivity(intent);
     }
 

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UscDoorDrink">
         <activity
-            android:name=".UserProfile"
+            android:name=".UserProfileActivity"
             android:exported="true" />
         <activity
             android:name=".StoreMenuActivity"
@@ -44,7 +44,7 @@
             android:name=".StoreEditor"
             android:exported="false" />
         <activity
-            android:name=".OrderDetails"
+            android:name=".OrderDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
