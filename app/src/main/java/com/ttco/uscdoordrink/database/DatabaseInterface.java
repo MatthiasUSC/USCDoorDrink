@@ -230,7 +230,7 @@ public class DatabaseInterface {
     }
 
     // Deletes all menu items with seller_name
-    public static void clearMenuItems(String seller_name){
+    public static void clearMenuItems(String seller_name, TriggerListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection(COLLECTION_MENU_ITEMS)
@@ -242,15 +242,27 @@ public class DatabaseInterface {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
-                                db.collection(COLLECTION_MENU_ITEMS).document(document.getId()).delete();
+                                if(!task.getResult().iterator().hasNext()){ // Puts callback on last async function (I hope that the last one is finished last)
+                                    db.collection(COLLECTION_MENU_ITEMS).document(document.getId()).delete()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                listener.onComplete();
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    db.collection(COLLECTION_MENU_ITEMS).document(document.getId()).delete();
+                                }
                             }
                         }
                     }
                 });
     }
 
-    // Deletes all stores with seller_name
-    public static void deleteStore(String seller_name){
+    // Deletes a store with seller_name
+    public static void deleteStore(String seller_name, TriggerListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection(COLLECTION_STORES)
@@ -262,7 +274,16 @@ public class DatabaseInterface {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
-                                db.collection(COLLECTION_STORES).document(document.getId()).delete();
+                                db.collection(COLLECTION_STORES).document(document.getId()).delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            listener.onComplete();
+                                        }
+                                    }
+                                });
+                                break;
                             }
                         }
                     }
