@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -27,6 +29,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.ttco.uscdoordrink.database.DatabaseInterface;
 import com.ttco.uscdoordrink.database.MenuEntry;
+import com.ttco.uscdoordrink.database.MenuListener;
 import com.ttco.uscdoordrink.database.SingleStoreListener;
 import com.ttco.uscdoordrink.database.StoreEntry;
 import com.google.android.libraries.places.R.id;
@@ -35,15 +38,23 @@ import com.google.android.libraries.places.R.id;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 
 public class StoreEditor extends AppCompatActivity {
     ListView menu;
+    ListView menu1;
     boolean type;
     ArrayList<MenuEntry> newMenu;
     ArrayList<String> display;
     EditText storeName;
     EditText storeLocation;
     public Place selectedPlace;
+    Context context;
+    EditText removeIndex;
+    Button removeButton;
+    String storeName_now;
+    String storeLocation_now;
     private static final String TAG = StoreEditor.class.getSimpleName();
     private PlacesClient placesClient;
 
@@ -54,9 +65,12 @@ public class StoreEditor extends AppCompatActivity {
         setContentView(R.layout.activity_store_editor);
         newMenu = new ArrayList<MenuEntry>();
         display = new ArrayList<String>();
+        removeIndex = (EditText) findViewById(R.id.removeIndex);
         menu = (ListView) findViewById(R.id.menu);
+        menu1 = (ListView) findViewById(R.id.menu);
+        removeButton = (Button) findViewById(R.id.removeButton);
         storeName = (EditText) findViewById(R.id.storeName);
-
+        context = this;
         if(!Places.isInitialized()){
             Places.initialize(getApplicationContext(), getString(R.string.google_maps_api_key));
         }
@@ -95,7 +109,40 @@ public class StoreEditor extends AppCompatActivity {
         DatabaseInterface.getStoreOfSeller(LoginActivity.user.name, new SingleStoreListener() {
             @Override
             public void onComplete(StoreEntry store) {
+//                String id = store.id;
 
+//                String ownerUsername = store.ownerUsername;
+                //System.out.println("reached on complete");
+                System.out.println("This is the store name: " + store.storeName);
+
+                if(store != null) {
+                    storeName_now = store.storeName;
+                    storeLocation_now = store.storeLocation;
+                    System.out.println(store.storeLocation);
+                    DatabaseInterface.getMenuItems(LoginActivity.user.name, new MenuListener() {
+                        @Override
+                        public void onComplete(List<MenuEntry> menu) {
+                            String id;
+                            String drinkName;
+                            Boolean isCaffeinated;
+                            String price;
+                            String discount;
+                            String ownerUsername;
+
+                            for (int i = 0; i < menu.size(); i++) {
+                                display.add("Item name: " + menu.get(i).drinkName + "\n" + "Price: " + menu.get(i).price + "\n" + "Discount: " + menu.get(i).discount + "\n" + "Is caffeinated: " + menu.get(i).isCaffeinated);
+                            }
+                            newMenu = (ArrayList<MenuEntry>) menu;
+                            ArrayAdapter arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, display);
+                            menu1.setAdapter(arrayAdapter);
+
+                            storeName.setText(storeName_now);
+//                            storeLocation.setText(storeLocation_now);
+                           // System.out.println(" reached");
+
+                        }
+                    });
+                }
             }
         });
     }
@@ -117,12 +164,24 @@ public class StoreEditor extends AppCompatActivity {
             tempType = "False";
         }
         display.add("Item name: " + Name + "\n" + "Price: " +  Price + "\n" + "Discount: " + Discount + "\n" + "Is caffeinated: " + tempType);
+
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, display);
         menu.setAdapter(arrayAdapter);
 
 
     }
 
+    public void removeItem(View view){
+        int index = Integer.parseInt(removeIndex.getText().toString());
+        if(index < display.size()) {
+            display.set(index, "");
+            newMenu.set(index, null);
+        }
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, display);
+        menu.setAdapter(arrayAdapter);
+
+    }
 
     public void caffiene(View view) {
         boolean checked = ((RadioButton) view).isChecked();
@@ -147,10 +206,19 @@ public class StoreEditor extends AppCompatActivity {
         String location = placeCoords.latitude + "," + placeCoords.longitude;
 
         StoreEntry store = new StoreEntry("0", name, location, LoginActivity.user.name);
+//        for(int i = 0; i < newMenu.size(); i ++) {
+//            DatabaseInterface.addMenuItem(newMenu.get(i));
+//        }
+        //DatabaseInterface.clearMenuItems(LoginActivity.user.name);
+
+
         for(int i = 0; i < newMenu.size(); i ++) {
-            DatabaseInterface.addMenuItem(newMenu.get(i));
+            if(newMenu.get(i) != null) {
+                DatabaseInterface.addMenuItem(newMenu.get(i));
+            }
         }
         DatabaseInterface.addStore(store);
+
 
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);

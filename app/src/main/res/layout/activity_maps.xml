@@ -61,35 +61,46 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/seller_orders"
-        android:layout_width="204dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="188dp"
-        android:layout_marginBottom="16dp"
+        android:id="@+id/seller_orders_button"
+        android:layout_width="165dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginBottom="64dp"
         android:onClick="onClickToSellerOrders"
-        android:text="Seller Orders (If seller)"
+        android:text="Seller Orders"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button9"
-        android:layout_width="211dp"
+        android:id="@+id/profile_button"
+        android:layout_width="165dp"
         android:layout_height="50dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginBottom="12dp"
+        android:onClick="onClickOpenProfileBtn"
+        android:text="PROFILE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/order_history_button"
+        android:layout_width="165dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginBottom="64dp"
         android:onClick="onClickToOrderHistory"
-        android:text="Order History (If customer)"
+        android:text="Order History"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button10"
-        android:layout_width="213dp"
+        android:id="@+id/store_editor_button"
+        android:layout_width="165dp"
         android:layout_height="50dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginBottom="152dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginBottom="112dp"
         android:onClick="onClickToStoreEditor"
-        android:text="Store Editor (If seller)"
+        android:text="Store Editor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
