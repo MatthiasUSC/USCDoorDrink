@@ -136,9 +136,6 @@ public class StoreEditor extends AppCompatActivity {
                             menu1.setAdapter(arrayAdapter);
 
                             storeName.setText(storeName_now);
-//                            storeLocation.setText(storeLocation_now);
-                           // System.out.println(" reached");
-
                         }
                     });
                 }
@@ -200,14 +197,16 @@ public class StoreEditor extends AppCompatActivity {
     public void submit(View view){
 
         String name = storeName.getText().toString();
+        String location;
 
-        LatLng placeCoords = selectedPlace.getLatLng();
-        String location = placeCoords.latitude + "," + placeCoords.longitude;
+        if(selectedPlace != null){
+            LatLng placeCoords = selectedPlace.getLatLng();
+            location = placeCoords.latitude + "," + placeCoords.longitude;
+        }else {
+            location = storeLocation_now;
+        }
 
         StoreEntry store = new StoreEntry("0", name, location, LoginActivity.user.name);
-//        for(int i = 0; i < newMenu.size(); i ++) {
-//            DatabaseInterface.addMenuItem(newMenu.get(i));
-//        }
 
         DatabaseInterface.clearMenuItems(LoginActivity.user.name, new TriggerListener() {
             @Override
