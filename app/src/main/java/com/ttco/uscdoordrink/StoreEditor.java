@@ -212,17 +212,20 @@ public class StoreEditor extends AppCompatActivity {
             @Override
             public void onComplete() {
                 for(int i = 0; i < newMenu.size(); i ++) {
-                    if(newMenu.get(i) != null) {
+                    if (newMenu.get(i) != null) {
                         DatabaseInterface.addMenuItem(newMenu.get(i));
                     }
                 }
-                DatabaseInterface.addStore(store);
             }
         });
 
 
-
-
+        DatabaseInterface.deleteStore(LoginActivity.user.name, new TriggerListener() {
+            @Override
+            public void onComplete() {
+                DatabaseInterface.addStore(store);
+            }
+        });
 
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
