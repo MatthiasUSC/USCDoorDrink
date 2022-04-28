@@ -240,6 +240,11 @@ public class DatabaseInterface {
                     @Override
                     public void onComplete(Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            if(task.getResult().size() == 0){
+                                listener.onComplete();
+                                return;
+                            }
+
                             int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
