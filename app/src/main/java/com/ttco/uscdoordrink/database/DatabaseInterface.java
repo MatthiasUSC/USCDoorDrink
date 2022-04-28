@@ -281,6 +281,11 @@ public class DatabaseInterface {
                     @Override
                     public void onComplete(Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            if(task.getResult().size() == 0){
+                                listener.onComplete();
+                                return;
+                            }
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> data = document.getData();
                                 db.collection(COLLECTION_STORES).document(document.getId()).delete()

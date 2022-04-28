@@ -208,6 +208,7 @@ public class StoreEditor extends AppCompatActivity {
 //        for(int i = 0; i < newMenu.size(); i ++) {
 //            DatabaseInterface.addMenuItem(newMenu.get(i));
 //        }
+
         DatabaseInterface.clearMenuItems(LoginActivity.user.name, new TriggerListener() {
             @Override
             public void onComplete() {
