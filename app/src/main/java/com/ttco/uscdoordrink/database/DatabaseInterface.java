@@ -30,9 +30,9 @@ public class DatabaseInterface {
     // TODO replace string constants with variable constants in OrderHistoryEntry
     public static Map<String, Object> createOrderHistoryEntryFromCurrentOrderEntry(CurrentOrderEntry order){
         Map<String, Object> complete_order = new HashMap<>();
-        complete_order.put("seller_username", order.seller_name);
-        complete_order.put("customer_username", order.customer_name);
-        complete_order.put("drink", order.drink);
+        complete_order.put("seller_name", order.seller_name);
+        complete_order.put("customer_name", order.customer_name);
+        complete_order.put("drink_name", order.drink);
         complete_order.put("start_time", order.startTime);
         complete_order.put("restaurant_name", order.restaurant_name);
         complete_order.put("order_location", order.order_location);
