@@ -33,6 +33,7 @@ import com.ttco.uscdoordrink.database.MenuListener;
 import com.ttco.uscdoordrink.database.SingleStoreListener;
 import com.ttco.uscdoordrink.database.StoreEntry;
 import com.google.android.libraries.places.R.id;
+import com.ttco.uscdoordrink.database.TriggerListener;
 
 
 import java.lang.reflect.Array;
@@ -209,15 +210,20 @@ public class StoreEditor extends AppCompatActivity {
 //        for(int i = 0; i < newMenu.size(); i ++) {
 //            DatabaseInterface.addMenuItem(newMenu.get(i));
 //        }
-        //DatabaseInterface.clearMenuItems(LoginActivity.user.name);
-
-
-        for(int i = 0; i < newMenu.size(); i ++) {
-            if(newMenu.get(i) != null) {
-                DatabaseInterface.addMenuItem(newMenu.get(i));
+        DatabaseInterface.clearMenuItems(LoginActivity.user.name, new TriggerListener() {
+            @Override
+            public void onComplete() {
+                for(int i = 0; i < newMenu.size(); i ++) {
+                    if(newMenu.get(i) != null) {
+                        DatabaseInterface.addMenuItem(newMenu.get(i));
+                    }
+                }
+                DatabaseInterface.addStore(store);
             }
-        }
-        DatabaseInterface.addStore(store);
+        });
+
+
+
 
 
         Intent intent = new Intent(this, MapsActivity.class);
